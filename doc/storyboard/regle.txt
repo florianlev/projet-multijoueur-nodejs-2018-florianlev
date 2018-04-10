@@ -1,0 +1,2 @@
+Le but est de faire la plus grosse zone possible et de tuer l'autre joueur,
+une gestion de score sera disponible

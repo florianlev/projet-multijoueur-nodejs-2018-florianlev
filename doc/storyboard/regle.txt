@@ -1,2 +1,3 @@
 Le but est de faire la plus grosse zone possible et de tuer l'autre joueur,
-une gestion de score sera disponible
+une gestion de score sera disponible.
+Si un joueur touche le chemin d'un autre joueur, alors le joueur qui est touché perd la partie

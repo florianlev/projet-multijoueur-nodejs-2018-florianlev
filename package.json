@@ -1,0 +1,27 @@
+{
+  "name": "projet-multijoueur-nodejs-2018-florianlev",
+  "version": "1.0.0",
+  "description": "Projet pour initialiser les dépôts de Classroom",
+  "main": "app.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cegepmatane/projet-multijoueur-nodejs-2018-florianlev.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cegepmatane/projet-multijoueur-nodejs-2018-florianlev/issues"
+  },
+  "homepage": "https://github.com/cegepmatane/projet-multijoueur-nodejs-2018-florianlev#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "socket.io": "^2.1.0",
+    "websocket": "^1.0.25"
+  }
+}

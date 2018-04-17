@@ -58,7 +58,7 @@ io.sockets.on('connection', function (socket) {
             player.pressGauche = data.state;
         else if (data.inputId === 'droite')
             player.pressDroite = data.state;
-        else if (data.inputId === 'up')
+        else if (data.inputId === 'haut')
             player.pressHaut = data.state;
         else if (data.inputId === 'bas')
             player.pressBas = data.state;

@@ -1,13 +1,23 @@
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
+//var express = require('express');
+//var app = express();
+var http = require('http');
+var io = require('socket.io');
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/client/index.html');
+//app.get('/', function (req, res) {
+    //res.sendFile(__dirname + '/client/index.html');
+//});
+//app.use('/client', express.static(__dirname + '/client'));
+
+var server = http.createServer(function(req, res){ 
+    // Send HTML headers and message
+    res.writeHead(200,{ 'Content-Type': 'text/html' }); 
+    res.end('<h1>Hello Socket Lover!</h1>');
 });
-app.use('/client', express.static(__dirname + '/client'));
+server.listen(2000)
 
-http.listen(2000);
+var socket = io.listen(server);
+
+//http.listen(2000);
 console.log("Server started");
 
 var SOCKET_LIST = {};
@@ -38,22 +48,24 @@ var Player = function (id) {
     return joueur;
 }
 
-var io = require('socket.io')(http, {});
+//var io = require('socket.io')(http, {});
 
 
-io.sockets.on('connection', function (socket) {
-    socket.id = Math.random();
-    SOCKET_LIST[socket.id] = socket;
+socket.on('connection', function (client) {
 
-    var player = Player(socket.id);
-    PLAYER_LIST[socket.id] = player;
+    console.log("test");
+    client.id = Math.random();
+    SOCKET_LIST[client.id] = client;
 
-    socket.on('disconnect', function () {
-        delete SOCKET_LIST[socket.id];
-        delete PLAYER_LIST[socket.id];
+    var player = Player(client.id);
+    PLAYER_LIST[client.id] = player;
+
+    client.on('disconnect', function () {
+        delete SOCKET_LIST[client.id];
+        delete PLAYER_LIST[client.id];
     });
 
-    socket.on('toucheEnfoncee', function (data) {
+    client.on('toucheEnfoncee', function (data) {
         if (data.inputId === 'gauche')
             player.pressGauche = data.state;
         else if (data.inputId === 'droite')
@@ -79,8 +91,8 @@ setInterval(function () {
     }
 
     for (var i in SOCKET_LIST) {
-        var socket = SOCKET_LIST[i];
-        socket.emit('newPositions', pack);
+        var clients = SOCKET_LIST[i];
+        clients.emit('newPositions', pack);
     }
 
 

@@ -1,1 +1,22 @@
 test
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+<script>
+	var socket = io();
+
+	var random = Math.random();
+
+	var happy = function () {
+
+		socket.emit('happy', {
+			reason: 'cest mon anniv.' + random
+		});
+	}
+
+	socket.on('serveurMsg', function (data) {
+		console.log(data.msg);
+	});
+
+</script>
+
+<button onclick="happy()">Happy</button>

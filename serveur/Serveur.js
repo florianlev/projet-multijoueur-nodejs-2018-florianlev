@@ -3,10 +3,6 @@
 var http = require('http');
 var io = require('socket.io');
 
-//app.get('/', function (req, res) {
-    //res.sendFile(__dirname + '/client/index.html');
-//});
-//app.use('/client', express.static(__dirname + '/client'));
 
 var server = http.createServer(function(req, res){ 
     // Send HTML headers and message

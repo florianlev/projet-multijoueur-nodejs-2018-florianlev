@@ -3,18 +3,33 @@
 
     var joueur;
     var connexion;
+    var canvas;
 
     function initialiser() {
 
         console.log("initialiserClient()");
-        var canvas = document.getElementById('ctx').getContext("2d");
+        canvas = document.getElementById('ctx');
+        scene = new createjs.Stage(canvas);
         canvas.font = '30px Arial';
-        connexion = new ConnexionNode(canvas);
-        joueur = new Joueur(canvas);
+        connexion = new ConnexionNode(recupererPositionJoueur);
+        joueur = new Joueur(scene, canvas);
+
 
         document.onkeydown = gererLesTouchesEnfoncee;
         document.onkeyup = gererLesTouchesLachee;
+        joueur.afficher();
+
+        createjs.Ticker.addEventListener("tick", rafraichirEcran);
+
     }
+
+    function rafraichirEcran(evenement)
+    {
+        scene.update(evenement);
+
+    }
+
+
 
     function gererLesTouchesEnfoncee(evenement) {
 
@@ -42,6 +57,12 @@
             case 87:
                 connexion.envoyerTouchesEnfoncee('haut', false);
         }
+    }
+
+    function recupererPositionJoueur()
+    {
+        //canvas.clearRect(0, 0, 500, 500);
+
     }
 
     initialiser();

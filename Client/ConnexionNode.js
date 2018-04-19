@@ -1,4 +1,4 @@
-function ConnexionNode(canvas)
+function ConnexionNode(setPositionJoueur)
 {
     var connexion;
 
@@ -14,10 +14,10 @@ function ConnexionNode(canvas)
 
     function changerNouvellesPositions(evenement)
     {
-        console.log("toto");
-        canvas.clearRect(0, 0, 500, 500);
+        //canvas.clearRect(0, 0, 500, 500);
         for (var i = 0; i < evenement.length; i++)
-            canvas.fillText(evenement[i].number, evenement[i].x, evenement[i].y);
+            setPositionJoueur();
+            //canvas.fillText(evenement[i].number, evenement[i].x, evenement[i].y);
     }
 
     this.envoyerTouchesEnfoncee = function(direction,etat)

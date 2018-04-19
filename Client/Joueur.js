@@ -1,4 +1,4 @@
-function Joueur(stage,canvas)
+function Joueur(scene, joueurInitial)
 {
 
     dessin = new createjs.Shape();

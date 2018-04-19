@@ -4,6 +4,7 @@
     var joueur;
     var connexion;
     var canvas;
+    var scene;
     var listeJoueur = [];
     
     var toucheDroiteEnfoncee;
@@ -26,20 +27,32 @@
         canvas = document.getElementById('ctx');
         scene = new createjs.Stage(canvas);
         canvas.font = '30px Arial';
-        connexion = new ConnexionNode(recupererPositionJoueur);
-        joueur = new Joueur(scene, canvas);
-
-
+        connexion = new ConnexionNode(recupererJoueurInitial,
+                                      recupererListeJoueur,
+                                      recupererPositionJoueur);
+        
         document.onkeydown = gererLesTouchesEnfoncee;
         document.onkeyup = gererLesTouchesLachee;
-        joueur.afficher();
-
-        createjs.Ticker.addEventListener("tick", rafraichirEcran);
-
+        
         toucheDroiteEnfoncee = false;
         toucheGaucheEnfoncee = false;
         toucheHautEnfoncee = false;
         toucheBasEnfoncee = false;
+    }
+
+    function recupererListeJoueur(listeJoueurServeur)
+    {
+        for()
+    }
+
+    function recupererJoueurInitial(listeJoueurServeur)
+    {
+        var joueurInitial = listeJoueurServeur[listeJoueurServeur.length];
+        joueur = new Joueur(scene, joueurInitial);
+        joueur.afficher();
+
+        createjs.Ticker.addEventListener("tick", rafraichirEcran);
+
     }
 
     function rafraichirEcran(evenement)

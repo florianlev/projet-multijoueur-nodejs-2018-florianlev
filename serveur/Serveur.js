@@ -44,7 +44,9 @@ function gererConnexion(connexion) {
 
     for (idConnexion = 0; idConnexion < listeConnexion.length; idConnexion++) {
         if (listeConnexion[idConnexion]) {
-            listeConnexion[idConnexion].emit('connexionJoueur', connexion.id);
+            listeJoueurJSON = recupererListeJoueurJSON();
+            console.log(listeJoueurJSON);
+            listeConnexion[idConnexion].emit('connexionJoueur', listeJoueurJSON);
         }
     }
     connexion.on('disconnect', gererDeconnexionClient);
@@ -74,18 +76,28 @@ function gererToucheEnfoncee(evenement) {
     }
 }
 
-function mettreAJourPosition() {
+function recupererListeJoueurJSON()
+{
+    var listeJoueurActif = [];
+    for (var idJoueur in listeJoueur) {
+        if (listeJoueur[idJoueur]) 
+            listeJoueurActif.push(listeJoueur[idJoueur]);     
+    }
+    return JSON.stringify(listeJoueurActif);
 
+}
+
+function mettreAJourPosition() {
+    var listeJoueurActif = [];
     for (var idJoueur in listeJoueur) {
         if (listeJoueur[idJoueur]) {
             joueur = listeJoueur[idJoueur];
             joueur.mettreAjourPosition();
-            listeJoueur.push(joueur);     
-
+            listeJoueurActif.push(joueur);     
         }
     }
-    var listeJoueursJson = JSON.stringify(listeJoueur);
-    console.log(listeJoueur);
+    var listeJoueursJson = JSON.stringify(listeJoueurActif);
+   
     //console.log(listeJoueursJson);
     for (var idConnexion in listeConnexion) {
         if (listeConnexion[idConnexion]) {

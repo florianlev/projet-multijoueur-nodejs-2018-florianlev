@@ -1,24 +1,33 @@
-function ConnexionNode(setPositionJoueur) {
+function ConnexionNode(recupererJoueurInitial,
+                        recupererListeJoueur
+                        ) {
     var connexion;
 
     
     function initialiser() {
         connexion = io.connect('http://127.0.0.1:2000');
         connexion.on('nouvellesPositions', chargerNouvellesPositions);
-        connexion.on('connexionJoueur', recevoirConnexionDunJoueur);   
+        connexion.on('connexionJoueur', gererConnexionJoueur);   
     }
 
     function chargerNouvellesPositions(evenement) {
-        listeJoueur = JSON.parse(evenement);
-        for (var i = 0; i < listeJoueur.length; i++)
-            setPositionJoueur();
+        listeJoueurServeur = JSON.parse(evenement);
+        for (var i = 0; i < listeJoueurServeur.length; i++)
+        {
+
+        }
+            //setPositionJoueur();
         //canvas.fillText(evenement[i].number, evenement[i].x, evenement[i].y);
     }
 
-    function recevoirConnexionDunJoueur(evenement) {
-        console.log("recevoirConnexionDunJoueur()");
-        console.log(evenement);
+    function gererConnexionJoueur(evenement) {
+        console.log("gererConnexionJoueur()");
+        listeJoueurServeur = JSON.parse(evenement);
+        recupererJoueurInitial(listeJoueurServeur);
+        recupererListeJoueur(listeJoueurServeur);
+
     }
+    
 
     this.envoyerTouchesEnfoncee = function (direction, etat) {
         connexion.emit('toucheEnfoncee', { directionCourante: direction, etatCourant: etat });

@@ -20,6 +20,12 @@ function ConnexionNode(canvas)
             canvas.fillText(evenement[i].number, evenement[i].x, evenement[i].y);
     }
 
+    this.envoyerTouchesEnfoncee(direction,etat)
+    {
+        socket.emit('toucheEnfoncee', { inputId: direction, state: etat });
+
+    }
+
     initialiser();
 
 }

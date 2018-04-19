@@ -6,6 +6,7 @@ var PLAYER_LIST = {};
 
 
 function initialiser() {
+    console.log("initialiser()");
     nombreClients = 0;
     var server = http.createServer(function (req, res) {
         // Send HTML headers and message
@@ -16,17 +17,13 @@ function initialiser() {
     server.listen(2000)
 
     var socket = io.listen(server);
-    socket.on('connexion', gererConnexion);
 
-
+    socket.on('connection', gererConnexion);
 
     setInterval(mettreAJourPosition, 1000 / 25);
 }
 
-
-
 console.log("Server started");
-
 
 
 var Player = function (id) {

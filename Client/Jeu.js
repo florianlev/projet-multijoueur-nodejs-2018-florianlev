@@ -11,6 +11,8 @@
     var toucheHautEnfoncee;
     var toucheBasEnfoncee;
 
+
+
     const configuration = {
         droite : 68, // d
         bas : 83, // s

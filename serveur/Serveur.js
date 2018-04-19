@@ -3,8 +3,10 @@ var io = require('socket.io');
 Joueur = require('./Joueur.js');
 
 var nombreClients;
-var SOCKET_LIST = [];
-var PLAYER_LIST = [];
+var listeConnexion = [];
+var listeJoueur = [];
+var listeJoueur = [];
+
 
 
 function initialiser() {
@@ -34,56 +36,61 @@ function gererConnexion(connexion) {
     connexion.id = nombreClients;
     console.log("ID client : " + connexion.id);
 
-    SOCKET_LIST[connexion.id] = connexion;
+    listeConnexion[connexion.id] = connexion;
 
     var joueur = new Joueur(connexion.id);
 
-    PLAYER_LIST[connexion.id] = joueur;
+    listeJoueur[connexion.id] = joueur;
 
-    for (idConnexion = 0; idConnexion < SOCKET_LIST.length; idConnexion++) {
-        if (SOCKET_LIST[idConnexion]) {
-            SOCKET_LIST[idConnexion].emit('connexionJoueur', connexion.id);
+    for (idConnexion = 0; idConnexion < listeConnexion.length; idConnexion++) {
+        if (listeConnexion[idConnexion]) {
+            listeConnexion[idConnexion].emit('connexionJoueur', connexion.id);
         }
     }
-
     connexion.on('disconnect', gererDeconnexionClient);
     connexion.on('toucheEnfoncee', gererToucheEnfoncee);
 }
 
-
-
 function gererDeconnexionClient(evenement) {
     console.log("gererDeconnexion" + this.id);
-    delete SOCKET_LIST[this.id];
-    delete PLAYER_LIST[this.id];
+    delete listeConnexion[this.id];
+    delete listeJoueur[this.id];
 }
 
 function gererToucheEnfoncee(evenement) {
     switch (evenement.directionCourante) {
         case 'gauche':
-            PLAYER_LIST[this.id].pressGauche = evenement.etatCourant;
+            listeJoueur[this.id].pressGauche = evenement.etatCourant;
             break;
         case 'droite':
-            PLAYER_LIST[this.id].pressDroite = evenement.etatCourant;
+            listeJoueur[this.id].pressDroite = evenement.etatCourant;
             break;
         case 'haut':
-            PLAYER_LIST[this.id].pressHaut = evenement.etatCourant;
+            listeJoueur[this.id].pressHaut = evenement.etatCourant;
             break;
         case 'bas':
-            PLAYER_LIST[this.id].pressBas = evenement.etatCourant;
+            listeJoueur[this.id].pressBas = evenement.etatCourant;
             break;
     }
 }
 
 function mettreAJourPosition() {
-    for (var idJoueur in PLAYER_LIST) {
-        PLAYER_LIST[idJoueur].mettreAjourPosition();
-    }
 
-    var listeJoueursJson = JSON.stringify(PLAYER_LIST);
-    for (var idConnexion in SOCKET_LIST) {
-        var connexion = SOCKET_LIST[idConnexion];
-        connexion.emit('nouvellesPositions', listeJoueursJson);
+    for (var idJoueur in listeJoueur) {
+        if (listeJoueur[idJoueur]) {
+            joueur = listeJoueur[idJoueur];
+            joueur.mettreAjourPosition();
+            listeJoueur.push(joueur);     
+
+        }
+    }
+    var listeJoueursJson = JSON.stringify(listeJoueur);
+    console.log(listeJoueur);
+    //console.log(listeJoueursJson);
+    for (var idConnexion in listeConnexion) {
+        if (listeConnexion[idConnexion]) {
+            listeConnexion[idConnexion].emit('nouvellesPositions', listeJoueursJson);
+        }
     }
 }
 

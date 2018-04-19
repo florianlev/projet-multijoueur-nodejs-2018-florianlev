@@ -1,30 +1,35 @@
-function Joueur(id) {
-    
-    var x;
-    var y;
-    var pressGauche;
-    var pressDroite;
-    var pressHaut;
-    var pressBas;
-    var maxVitesse;
+function Joueur(nouveauId) {
+    joueur = this;
+    this.id;
+    this.x;
+    this.y;
+    this.pressGauche;
+    this.pressDroite;
+    this.pressHaut;
+    this.pressBas;
+    this.maxVitesse;
 
 
-    var initialiser = function () {
-        x = 250;
-        y = 250;
-        pressGauche = false;
-        pressDroite = false;
-        pressHaut = false;
-        pressBas = false;
-        maxVitesse = 10;
+    function initialiser(){
+        console.log("initialiser");
+        joueur.x = 250;
+        joueur.y = 250;
+        joueur.pressGauche = false;
+        joueur.pressDroite = false;
+        joueur.pressHaut = false;
+        joueur.pressBas = false;
+        joueur.maxVitesse = 10;
+        joueur.id = nouveauId;
     }
 
     this.mettreAjourPosition = function () {
-        if (pressDroite) x += maxVitesse;
-        if (pressGauche)  x -= maxVitesse;
-        if (pressHaut) y -= maxVitesse;
-        if (pressBas) y += maxVitesse;
+        if (joueur.pressDroite) joueur.x += joueur.maxVitesse;
+        if (joueur.pressGauche)  joueur.x -= joueur.maxVitesse;
+        if (joueur.pressHaut) joueur.y -= joueur.maxVitesse;
+        if (joueur.pressBas) joueur.y += joueur.maxVitesse;
     }
+
+    initialiser();
 
 }
 module.exports = Joueur;

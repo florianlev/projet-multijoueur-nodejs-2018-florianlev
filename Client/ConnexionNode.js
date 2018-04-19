@@ -2,21 +2,15 @@ function ConnexionNode(setPositionJoueur) {
     var connexion;
 
     
-
     function initialiser() {
         connexion = io.connect('http://127.0.0.1:2000');
         connexion.on('nouvellesPositions', chargerNouvellesPositions);
-        connexion.on('connexionJoueur', recevoirConnexionDunJoueur);
-
-       
+        connexion.on('connexionJoueur', recevoirConnexionDunJoueur);   
     }
 
     function chargerNouvellesPositions(evenement) {
-        console.log("chargerNouvellesPositions()");
-        console.log(evenement);
         listeJoueur = JSON.parse(evenement);
-        console.log("listeJoueurJSON " + listeJoueur);
-        for (var i = 0; i < evenement.length; i++)
+        for (var i = 0; i < listeJoueur.length; i++)
             setPositionJoueur();
         //canvas.fillText(evenement[i].number, evenement[i].x, evenement[i].y);
     }
@@ -28,7 +22,6 @@ function ConnexionNode(setPositionJoueur) {
 
     this.envoyerTouchesEnfoncee = function (direction, etat) {
         connexion.emit('toucheEnfoncee', { directionCourante: direction, etatCourant: etat });
-
     }
 
     initialiser();

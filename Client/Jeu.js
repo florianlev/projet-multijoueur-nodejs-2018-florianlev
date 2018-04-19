@@ -1,4 +1,4 @@
-(function () {
+(function Jeu() {
 
 
     var joueur;
@@ -12,8 +12,8 @@
         connexion = new ConnexionNode(canvas);
         joueur = new Joueur(canvas);
 
-        document.onkeydown(gererLesTouchesEnfoncee);
-        document.onkeyup(gererLesTouchesLachee)
+        document.onkeydown = gererLesTouchesEnfoncee;
+        document.onkeyup = gererLesTouchesLachee;
     }
 
     function gererLesTouchesEnfoncee(evenement) {

@@ -1,6 +1,5 @@
 function Joueur(id) {
-
-
+    
     var x;
     var y;
     var pressGauche;

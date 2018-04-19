@@ -1,36 +1,33 @@
-function ConnexionNode(setPositionJoueur)
-{
+function ConnexionNode(setPositionJoueur) {
     var connexion;
 
-    function initialiser()
-    {
+    
 
-
+    function initialiser() {
         connexion = io.connect('http://127.0.0.1:2000');
+        connexion.on('nouvellesPositions', chargerNouvellesPositions);
+        connexion.on('connexionJoueur', recevoirConnexionDunJoueur);
 
-
-        connexion.on('nouvellesPositions', changerNouvellesPositions);
-        connexion.on('connexionJoueur',recevoirConnexionDunJoueur);
+       
     }
 
-    function changerNouvellesPositions(evenement)
-    {
-        //canvas.clearRect(0, 0, 500, 500);
-        //console.log(evenement);
+    function chargerNouvellesPositions(evenement) {
+        console.log("chargerNouvellesPositions()");
+        console.log(evenement);
+        listeJoueur = JSON.parse(evenement);
+        console.log("listeJoueurJSON " + listeJoueur);
         for (var i = 0; i < evenement.length; i++)
             setPositionJoueur();
-            //canvas.fillText(evenement[i].number, evenement[i].x, evenement[i].y);
+        //canvas.fillText(evenement[i].number, evenement[i].x, evenement[i].y);
     }
 
-    function recevoirConnexionDunJoueur(evenement)
-    {
+    function recevoirConnexionDunJoueur(evenement) {
         console.log("recevoirConnexionDunJoueur()");
         console.log(evenement);
     }
 
-    this.envoyerTouchesEnfoncee = function(direction,etat)
-    {
-        connexion.emit('toucheEnfoncee', { inputId: direction, state: etat });
+    this.envoyerTouchesEnfoncee = function (direction, etat) {
+        connexion.emit('toucheEnfoncee', { directionCourante: direction, etatCourant: etat });
 
     }
 

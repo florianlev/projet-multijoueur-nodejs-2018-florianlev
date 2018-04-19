@@ -1,6 +1,6 @@
 var http = require('http');
 var io = require('socket.io');
-Joueur = require('/Joueur.js');
+Joueur = require('./Joueur.js');
 
 var nombreClients;
 var SOCKET_LIST = [];
@@ -40,10 +40,8 @@ function gererConnexion(connexion) {
 
     PLAYER_LIST[connexion.id] = joueur;
 
-    for(idConnexion=0; idConnexion < SOCKET_LIST.length; idConnexion++)
-    {
-        if(SOCKET_LIST[idConnexion])
-        {
+    for (idConnexion = 0; idConnexion < SOCKET_LIST.length; idConnexion++) {
+        if (SOCKET_LIST[idConnexion]) {
             SOCKET_LIST[idConnexion].emit('connexionJoueur', connexion.id);
         }
     }
@@ -54,49 +52,39 @@ function gererConnexion(connexion) {
 
 
 
-function gererDeconnexionClient(evenement)
-{
-    delete SOCKET_LIST[connexion.id];
-    delete PLAYER_LIST[connexion.id];
+function gererDeconnexionClient(evenement) {
+    console.log("gererDeconnexion" + this.id);
+    delete SOCKET_LIST[this.id];
+    delete PLAYER_LIST[this.id];
 }
 
-function gererToucheEnfoncee(evenement)
-{
-    switch (evenement.inputId) {
+function gererToucheEnfoncee(evenement) {
+    switch (evenement.directionCourante) {
         case 'gauche':
-            player.pressGauche = evenement.state;
+            PLAYER_LIST[this.id].pressGauche = evenement.etatCourant;
             break;
         case 'droite':
-            player.pressDroite = evenement.state;
+            PLAYER_LIST[this.id].pressDroite = evenement.etatCourant;
             break;
         case 'haut':
-            player.pressHaut = evenement.state;
+            PLAYER_LIST[this.id].pressHaut = evenement.etatCourant;
             break;
         case 'bas':
-            player.pressBas = evenement.state;
+            PLAYER_LIST[this.id].pressBas = evenement.etatCourant;
             break;
     }
 }
 
 function mettreAJourPosition() {
-
-    var pack = [];
-    for (var i in PLAYER_LIST) {
-        var player = PLAYER_LIST[i];
-        joueur.mettreAjourPosition();
-        pack.push({
-            x: player.x,
-            y: player.y,
-            number: player.number
-        });
+    for (var idJoueur in PLAYER_LIST) {
+        PLAYER_LIST[idJoueur].mettreAjourPosition();
     }
 
-    for (var i in SOCKET_LIST) {
-        var clients = SOCKET_LIST[i];
-        clients.emit('nouvellesPositions', pack);
+    var listeJoueursJson = JSON.stringify(PLAYER_LIST);
+    for (var idConnexion in SOCKET_LIST) {
+        var connexion = SOCKET_LIST[idConnexion];
+        connexion.emit('nouvellesPositions', listeJoueursJson);
     }
-
-
 }
 
 initialiser();

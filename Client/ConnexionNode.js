@@ -15,6 +15,7 @@ function ConnexionNode(setPositionJoueur)
     function changerNouvellesPositions(evenement)
     {
         //canvas.clearRect(0, 0, 500, 500);
+        console.log(evenement);
         for (var i = 0; i < evenement.length; i++)
             setPositionJoueur();
             //canvas.fillText(evenement[i].number, evenement[i].x, evenement[i].y);

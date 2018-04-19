@@ -4,6 +4,7 @@
     var joueur;
     var connexion;
     var canvas;
+    var listeJoueur = [];
 
     function initialiser() {
 
@@ -36,12 +37,16 @@
         switch(evenement.keyCode){
             case 68:
                 connexion.envoyerTouchesEnfoncee('droite', true);
+                break;
             case 83:
                 connexion.envoyerTouchesEnfoncee('bas', true);
+                break;
             case 65:
                 connexion.envoyerTouchesEnfoncee('gauche', true);
+                break;
             case 87:
                 connexion.envoyerTouchesEnfoncee('haut', true);
+                break;
         }
     }
 
@@ -50,12 +55,16 @@
         switch(evenement.keyCode){
             case 68:
                 connexion.envoyerTouchesEnfoncee('droite', false);
+                break;
             case 83:
                 connexion.envoyerTouchesEnfoncee('bas', false);
+                break;
             case 65:
                 connexion.envoyerTouchesEnfoncee('gauche', false);
+                break;
             case 87:
                 connexion.envoyerTouchesEnfoncee('haut', false);
+                break;
         }
     }
 

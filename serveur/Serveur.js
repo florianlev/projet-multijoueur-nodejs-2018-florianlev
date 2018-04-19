@@ -1,8 +1,10 @@
 var http = require('http');
 var io = require('socket.io');
+Joueur = require('/Joueur.js');
+
 var nombreClients;
-var SOCKET_LIST = {};
-var PLAYER_LIST = {};
+var SOCKET_LIST = [];
+var PLAYER_LIST = [];
 
 
 function initialiser() {
@@ -26,68 +28,54 @@ function initialiser() {
 console.log("Server started");
 
 
-var Player = function (id) {
-    var joueur = {
-        x: 250,
-        y: 250,
-        id: id,
-        number: "" + Math.floor(10 * Math.random()),
-        pressGauche: false,
-        pressDroite: false,
-        pressHaut: false,
-        pressBas: false,
-        maxVitesse: 10,
+
+function gererConnexion(connexion) {
+    nombreClients++;
+    connexion.id = nombreClients;
+    console.log("ID client : " + connexion.id);
+
+    SOCKET_LIST[connexion.id] = connexion;
+
+    var joueur = new Joueur(connexion.id);
+
+    PLAYER_LIST[connexion.id] = joueur;
+
+    for(idConnexion=0; idConnexion < SOCKET_LIST.length; idConnexion++)
+    {
+        if(SOCKET_LIST[idConnexion])
+        {
+            SOCKET_LIST[idConnexion].emit('connexionJoueur', connexion.id);
+        }
     }
-    joueur.updatePosition = function () {
-        if (joueur.pressDroite)
-            joueur.x += joueur.maxVitesse;
-        if (joueur.pressGauche)
-            joueur.x -= joueur.maxVitesse;
-        if (joueur.pressHaut)
-            joueur.y -= joueur.maxVitesse;
-        if (joueur.pressBas)
-            joueur.y += joueur.maxVitesse;
-    }
-    return joueur;
+
+    connexion.on('disconnect', gererDeconnexionClient);
+    connexion.on('toucheEnfoncee', gererToucheEnfoncee);
 }
 
 
-function gererConnexion(client) {
-    nombreClients++;
-    client.id = nombreClients;
-    console.log("ID client : " + client.id);
 
-    SOCKET_LIST[client.id] = client;
+function gererDeconnexionClient(evenement)
+{
+    delete SOCKET_LIST[connexion.id];
+    delete PLAYER_LIST[connexion.id];
+}
 
-    var player = Player(client.id);
-    PLAYER_LIST[client.id] = player;
-
-
-    client.emit('connexionDunJoueur', client.id);
-
-    client.on('disconnect', function () {
-        delete SOCKET_LIST[client.id];
-        delete PLAYER_LIST[client.id];
-    });
-
-    client.on('toucheEnfoncee', function (evenement) {
-
-        switch (data.inputId) {
-            case 'gauche':
-                player.pressGauche = evenement.state;
-                break;
-            case 'droite':
-                player.pressDroite = evenement.state;
-                break;
-            case 'haut':
-                player.pressHaut = evenement.state;
-                break;
-            case 'bas':
-                player.pressBas = evenement.state;
-                break;
-        }
-    });
-
+function gererToucheEnfoncee(evenement)
+{
+    switch (evenement.inputId) {
+        case 'gauche':
+            player.pressGauche = evenement.state;
+            break;
+        case 'droite':
+            player.pressDroite = evenement.state;
+            break;
+        case 'haut':
+            player.pressHaut = evenement.state;
+            break;
+        case 'bas':
+            player.pressBas = evenement.state;
+            break;
+    }
 }
 
 function mettreAJourPosition() {
@@ -95,7 +83,7 @@ function mettreAJourPosition() {
     var pack = [];
     for (var i in PLAYER_LIST) {
         var player = PLAYER_LIST[i];
-        player.updatePosition();
+        joueur.mettreAjourPosition();
         pack.push({
             x: player.x,
             y: player.y,

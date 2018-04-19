@@ -10,15 +10,22 @@ function ConnexionNode(setPositionJoueur)
 
 
         connexion.on('nouvellesPositions', changerNouvellesPositions);
+        connexion.on('connexionJoueur',recevoirConnexionDunJoueur);
     }
 
     function changerNouvellesPositions(evenement)
     {
         //canvas.clearRect(0, 0, 500, 500);
-        console.log(evenement);
+        //console.log(evenement);
         for (var i = 0; i < evenement.length; i++)
             setPositionJoueur();
             //canvas.fillText(evenement[i].number, evenement[i].x, evenement[i].y);
+    }
+
+    function recevoirConnexionDunJoueur(evenement)
+    {
+        console.log("recevoirConnexionDunJoueur()");
+        console.log(evenement);
     }
 
     this.envoyerTouchesEnfoncee = function(direction,etat)

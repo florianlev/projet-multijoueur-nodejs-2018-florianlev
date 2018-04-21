@@ -31,6 +31,7 @@ console.log("Server started");
 
 
 
+
 function gererConnexion(connexion) {
     nombreClients++;
     connexion.id = nombreClients;
@@ -51,6 +52,14 @@ function gererConnexion(connexion) {
     }
     connexion.on('disconnect', gererDeconnexionClient);
     connexion.on('toucheEnfoncee', gererToucheEnfoncee);
+    connexion.on('etatConnexion', recevoirEtatConnexion);
+
+}
+function recevoirEtatConnexion(estConnecter)
+{
+    //console.log("estConnecter = " + estConnecter);
+    listeJoueur[this.id].estCreer = estConnecter;
+    //console.log(listeJoueur[this.id].estCreer);
 }
 
 function gererDeconnexionClient(evenement) {

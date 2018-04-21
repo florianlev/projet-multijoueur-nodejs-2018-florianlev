@@ -6,6 +6,7 @@
     var canvas;
     var scene;
     var listeJoueur = [];
+    var autreJoueur;
     
     var toucheDroiteEnfoncee;
     var toucheGaucheEnfoncee;
@@ -42,7 +43,21 @@
 
     function recupererListeJoueur(listeJoueurServeur)
     {
-        for()
+
+        for(idJoueur in listeJoueurServeur)
+        {
+
+            if(!listeJoueurServeur[idJoueur].estCreer)
+            {
+                console.log("test");
+                autreJoueur = new Joueur(scene, listeJoueurServeur[idJoueur]);
+                autreJoueur.afficher();
+                autreJoueur.setPositionx(200);
+                //autreJoueur.estCreer = true;
+                connexion.changerEtatEstCreer(true);
+            }
+            //console.log(listeJoueurServeur[idJoueur]);
+        }
     }
 
     function recupererJoueurInitial(listeJoueurServeur)

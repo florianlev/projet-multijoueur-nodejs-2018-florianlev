@@ -27,9 +27,14 @@ function ConnexionNode(recupererJoueurInitial,
         recupererListeJoueur(listeJoueurServeur);
 
     }
+
+    this.changerEtatEstCreer = function(estCreer)
+    {
+        connexion.emit('etatConnexion', estCreer);
+    }
     
 
-    this.envoyerTouchesEnfoncee = function (direction, etat) {
+    this.envoyerTouchesEnfoncee = function (direction, etat) {  
         connexion.emit('toucheEnfoncee', { directionCourante: direction, etatCourant: etat });
     }
 

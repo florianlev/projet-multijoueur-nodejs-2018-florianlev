@@ -45,39 +45,37 @@
     function recupererListeJoueur(listeJoueurServeur)
     {
         var joueurServeur;
-        for(idJoueur in listeJoueurServeur)
+        for(ordreJoueur in listeJoueurServeur)
         {
-            console.log(listeJoueurServeur);
-            idJoueurServeurCourant = listeJoueurServeur[idJoueur].id;
-            console.log("idCourant " + idCourant);
-            console.log("idJoueurServeurCourant " + idJoueurServeurCourant);
+            idJoueurServeurCourant = listeJoueurServeur[ordreJoueur].id;
 
-            if(idCourant != idJoueurServeurCourant )
+
+            if(!listeJoueur[ordreJoueur])
             {
-                //console.log(idJoueurServeurCourant);
-                joueurServeur = listeJoueurServeur[idJoueur];
-                console.log(joueurServeur);
+                console.log("Le joueur " + idJoueurServeurCourant + " s'est connecter !" );
+                joueurServeur = listeJoueurServeur[ordreJoueur];
                 autreJoueur = new Joueur(scene, joueurServeur);
                 listeJoueur.push(autreJoueur);
-                console.log(listeJoueur);
                 autreJoueur.afficher();
                 autreJoueur.setPositionx(200);
-                //autreJoueur.estCreer = true;
                 connexion.changerEtatEstCreer(true);
             }
-            //console.log(listeJoueurServeur[idJoueur]);
         }
     }
 
     function recupererJoueurInitial(listeJoueurServeur)
     {
-        var joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
-        idCourant = joueurInitial.id;
-        console.log(joueurInitial);
-        joueur = new Joueur(scene, joueurInitial);
-        joueur.afficher();
+        if(!listeJoueur.length)
+        {
+            var joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
+            listeJoueur.push(joueurInitial);
+            joueur = new Joueur(scene, joueurInitial);
+            joueur.afficher();
+    
+            createjs.Ticker.addEventListener("tick", rafraichirEcran);
+        }
 
-        createjs.Ticker.addEventListener("tick", rafraichirEcran);
+       
 
     }
 

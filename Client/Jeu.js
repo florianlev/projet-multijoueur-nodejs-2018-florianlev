@@ -48,13 +48,18 @@
         for(idJoueur in listeJoueurServeur)
         {
             console.log(listeJoueurServeur);
+            idJoueurServeurCourant = listeJoueurServeur[idJoueur].id;
+            console.log("idCourant " + idCourant);
+            console.log("idJoueurServeurCourant " + idJoueurServeurCourant);
 
-            if(idCourant != listeJoueurServeur[idJoueur].id )
+            if(idCourant != idJoueurServeurCourant )
             {
-                console.log(listeJoueurServeur[idJoueur].id);
+                //console.log(idJoueurServeurCourant);
                 joueurServeur = listeJoueurServeur[idJoueur];
                 console.log(joueurServeur);
                 autreJoueur = new Joueur(scene, joueurServeur);
+                listeJoueur.push(autreJoueur);
+                console.log(listeJoueur);
                 autreJoueur.afficher();
                 autreJoueur.setPositionx(200);
                 //autreJoueur.estCreer = true;
@@ -68,7 +73,7 @@
     {
         var joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
         idCourant = joueurInitial.id;
-        //console.log(joueurInitial);
+        console.log(joueurInitial);
         joueur = new Joueur(scene, joueurInitial);
         joueur.afficher();
 

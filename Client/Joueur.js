@@ -1,15 +1,18 @@
 function Joueur(scene, joueurInitial)
 {
 
-    dessin = new createjs.Shape();
+    var dessin;
     var x;
     var y;
     this.estCreer;
 
+    //console.log(joueurInitial["id"]);
 
 
     function initialiser()
     {
+        dessin = new createjs.Shape();
+        console.log(joueurInitial.id);
         dessinerJoueur();
         this.estCreer = false;
     }

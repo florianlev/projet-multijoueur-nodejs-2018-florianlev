@@ -7,6 +7,7 @@
     var scene;
     var listeJoueur = [];
     var autreJoueur;
+    var idCourant;
     
     var toucheDroiteEnfoncee;
     var toucheGaucheEnfoncee;
@@ -43,14 +44,17 @@
 
     function recupererListeJoueur(listeJoueurServeur)
     {
-
+        var joueurServeur;
         for(idJoueur in listeJoueurServeur)
         {
+            console.log(listeJoueurServeur);
 
-            if(!listeJoueurServeur[idJoueur].estCreer)
+            if(idCourant != listeJoueurServeur[idJoueur].id )
             {
-                console.log("test");
-                autreJoueur = new Joueur(scene, listeJoueurServeur[idJoueur]);
+                console.log(listeJoueurServeur[idJoueur].id);
+                joueurServeur = listeJoueurServeur[idJoueur];
+                console.log(joueurServeur);
+                autreJoueur = new Joueur(scene, joueurServeur);
                 autreJoueur.afficher();
                 autreJoueur.setPositionx(200);
                 //autreJoueur.estCreer = true;
@@ -62,7 +66,9 @@
 
     function recupererJoueurInitial(listeJoueurServeur)
     {
-        var joueurInitial = listeJoueurServeur[listeJoueurServeur.length];
+        var joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
+        idCourant = joueurInitial.id;
+        //console.log(joueurInitial);
         joueur = new Joueur(scene, joueurInitial);
         joueur.afficher();
 

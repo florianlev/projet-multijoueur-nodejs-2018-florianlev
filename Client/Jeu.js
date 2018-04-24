@@ -31,7 +31,7 @@
         canvas.font = '30px Arial';
         connexion = new ConnexionNode(recupererJoueurInitial,
                                       recupererListeJoueur,
-                                      recupererPositionJoueur);
+                                      gererNouvellesPositions);
         
         document.onkeydown = gererLesTouchesEnfoncee;
         document.onkeyup = gererLesTouchesLachee;
@@ -48,7 +48,6 @@
         for(ordreJoueur in listeJoueurServeur)
         {
             idJoueurServeurCourant = listeJoueurServeur[ordreJoueur].id;
-
 
             if(!listeJoueur[ordreJoueur])
             {
@@ -68,21 +67,37 @@
         if(!listeJoueur.length)
         {
             var joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
-            listeJoueur.push(joueurInitial);
+            
             joueur = new Joueur(scene, joueurInitial);
+            listeJoueur.push(joueur);
             joueur.afficher();
     
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
         }
-
-       
-
     }
 
     function rafraichirEcran(evenement)
     {
         scene.update(evenement);
+    }
 
+    function gererNouvellesPositions(x,y,id)
+    {
+        //console.log(id);
+        //console.log(listeJoueur);
+        for(ordreJoueur in listeJoueur)
+        {
+            if(id == listeJoueur[ordreJoueur].id)
+            {
+                console.log("gererNouvellesPositions");
+
+                console.log(listeJoueur[ordreJoueur]);
+                //console.log(listeJoueur[ordreJoueur]);
+                listeJoueur[ordreJoueur].setPositionx(x);
+                listeJoueur[ordreJoueur].setPositiony(y);
+
+            }
+        }
     }
 
     function gererLesTouchesEnfoncee(evenement) {
@@ -142,11 +157,6 @@
         }
     }
 
-    function recupererPositionJoueur()
-    {
-        //canvas.clearRect(0, 0, 500, 500);
-
-    }
 
     initialiser();
 

@@ -46,7 +46,7 @@ function gererConnexion(connexion) {
     for (idConnexion = 0; idConnexion < listeConnexion.length; idConnexion++) {
         if (listeConnexion[idConnexion]) {
             listeJoueurJSON = recupererListeJoueurJSON();
-            console.log(listeJoueurJSON);
+            //console.log(listeJoueurJSON);
             listeConnexion[idConnexion].emit('connexionJoueur', listeJoueurJSON);
         }
     }

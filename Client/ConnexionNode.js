@@ -1,5 +1,6 @@
 function ConnexionNode(recupererJoueurInitial,
-                        recupererListeJoueur
+                        recupererListeJoueur,
+                        gererNouvellesPositions
                         ) {
     var connexion;
 
@@ -12,8 +13,16 @@ function ConnexionNode(recupererJoueurInitial,
 
     function chargerNouvellesPositions(evenement) {
         listeJoueurServeur = JSON.parse(evenement);
+        //console.log(listeJoueurServeur);
+ 
         for (var i = 0; i < listeJoueurServeur.length; i++)
         {
+            x = listeJoueurServeur[i].x;
+            y = listeJoueurServeur[i].y;
+            id = listeJoueurServeur[i].id;
+            //console.log(x);
+
+            gererNouvellesPositions(x,y,id);
 
         }
             //setPositionJoueur();

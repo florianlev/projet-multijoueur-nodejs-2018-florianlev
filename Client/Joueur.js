@@ -13,6 +13,7 @@ function Joueur(scene, joueurInitial)
     function initialiser()
     {
         dessin = new createjs.Shape();
+        //joueur.id = 0;
         //console.log(joueurInitial.id);
         joueur.id = joueurInitial.id;
         dessinerJoueur();

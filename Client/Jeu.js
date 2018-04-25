@@ -8,7 +8,7 @@
     var listeJoueur = [];
     var autreJoueur;
     var idCourant;
-    
+
     var toucheDroiteEnfoncee;
     var toucheGaucheEnfoncee;
     var toucheHautEnfoncee;
@@ -17,10 +17,10 @@
 
 
     const configuration = {
-        droite : 68, // d
-        bas : 83, // s
-        gauche : 65, // a
-        haut : 87 // w
+        droite: 68, // d
+        bas: 83, // s
+        gauche: 65, // a
+        haut: 87 // w
     }
 
     function initialiser() {
@@ -30,104 +30,92 @@
         scene = new createjs.Stage(canvas);
         canvas.font = '30px Arial';
         connexion = new ConnexionNode(recupererJoueurInitial,
-                                      recupererListeJoueur,
-                                      gererNouvellesPositions);
-        
+            recupererListeJoueur,
+            gererNouvellesPositions);
+
         document.onkeydown = gererLesTouchesEnfoncee;
         document.onkeyup = gererLesTouchesLachee;
-        
+
         toucheDroiteEnfoncee = false;
         toucheGaucheEnfoncee = false;
         toucheHautEnfoncee = false;
         toucheBasEnfoncee = false;
     }
 
-    function recupererListeJoueur(listeJoueurServeur)
-    {
-        var joueurServeur;
-        for(ordreJoueur in listeJoueurServeur)
-        {
-            idJoueurServeurCourant = listeJoueurServeur[ordreJoueur].id;
 
-            if(!listeJoueur[ordreJoueur])
-            {
-                console.log("Le joueur " + idJoueurServeurCourant + " s'est connecter !" );
-                joueurServeur = listeJoueurServeur[ordreJoueur];
+    function recupererListeJoueur(listeJoueurServeur) {
+        var joueurServeur;
+        var estTrouvee;
+        for (ordreJoueurServeur in listeJoueurServeur) {
+            estTrouvee = false;
+            idJoueurServeurCourant = listeJoueurServeur[ordreJoueurServeur].id;
+            for (ordreJoueurClient in listeJoueur) {
+                if (listeJoueur[ordreJoueurClient].id == idJoueurServeurCourant) {
+                    estTrouvee = true;
+                }
+            }
+            if (!estTrouvee) {
+                joueurServeur = listeJoueurServeur[ordreJoueurServeur];
                 autreJoueur = new Joueur(scene, joueurServeur);
                 listeJoueur.push(autreJoueur);
                 autreJoueur.afficher();
-                autreJoueur.setPositionx(200);
                 connexion.changerEtatEstCreer(true);
             }
         }
     }
 
-    function recupererJoueurInitial(listeJoueurServeur)
-    {
-        if(!listeJoueur.length)
-        {
+    function recupererJoueurInitial(listeJoueurServeur) {
+        if (!listeJoueur.length) {
+            console.log("test");
             var joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
-            
+
             joueur = new Joueur(scene, joueurInitial);
+            joueur.id = joueurInitial.id;
             listeJoueur.push(joueur);
             joueur.afficher();
-    
+
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
         }
     }
 
-    function rafraichirEcran(evenement)
-    {
+    function rafraichirEcran(evenement) {
         scene.update(evenement);
     }
 
-    function gererNouvellesPositions(x,y,id)
-    {
-        //console.log(id);
-        //console.log(listeJoueur);
-        for(ordreJoueur in listeJoueur)
-        {
-            if(id == listeJoueur[ordreJoueur].id)
-            {
-                console.log("gererNouvellesPositions");
+    function gererNouvellesPositions(x, y, id) {
 
-                console.log(listeJoueur[ordreJoueur]);
-                //console.log(listeJoueur[ordreJoueur]);
-                listeJoueur[ordreJoueur].setPositionx(x);
-                listeJoueur[ordreJoueur].setPositiony(y);
-
+        for (var i = 0; i < listeJoueur.length; i++) {
+            if (id == listeJoueur[i].id) {
+                listeJoueur[i].setPositionx(x);
+                listeJoueur[i].setPositiony(y);
             }
         }
     }
 
     function gererLesTouchesEnfoncee(evenement) {
 
-        switch(evenement.keyCode){
+        switch (evenement.keyCode) {
             case configuration.droite:
-                if(!toucheDroiteEnfoncee)
-                {
+                if (!toucheDroiteEnfoncee) {
                     connexion.envoyerTouchesEnfoncee('droite', true);
                     toucheDroiteEnfoncee = true;
                 }
                 break;
             case configuration.bas:
-                if(!toucheBasEnfoncee)
-                {
+                if (!toucheBasEnfoncee) {
                     connexion.envoyerTouchesEnfoncee('bas', true);
                     toucheBasEnfoncee = true;
                 }
                 break;
             case configuration.gauche:
-                if(!toucheGaucheEnfoncee)
-                {
+                if (!toucheGaucheEnfoncee) {
                     connexion.envoyerTouchesEnfoncee('gauche', true);
                     toucheGaucheEnfoncee = true;
                 }
                 break;
 
             case configuration.haut:
-                if(!toucheHautEnfoncee)
-                {
+                if (!toucheHautEnfoncee) {
                     connexion.envoyerTouchesEnfoncee('haut', true);
                     toucheHautEnfoncee = true;
                 }
@@ -135,9 +123,8 @@
         }
     }
 
-    function gererLesTouchesLachee(evenement)
-    {
-        switch(evenement.keyCode){
+    function gererLesTouchesLachee(evenement) {
+        switch (evenement.keyCode) {
             case configuration.droite:
                 connexion.envoyerTouchesEnfoncee('droite', false);
                 toucheDroiteEnfoncee = false;

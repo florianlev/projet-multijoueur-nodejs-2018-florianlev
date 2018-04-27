@@ -14,7 +14,13 @@
     var toucheHautEnfoncee;
     var toucheBasEnfoncee;
 
-
+    const etatDirection = {
+        droite: "droite",
+        bas: "bas",
+        gauche:"gauche",
+        droite:"droite"
+    }
+    var etatDirectionCourant;
 
     const configuration = {
         droite: 68, // d
@@ -34,12 +40,6 @@
             gererNouvellesPositions);
 
         document.onkeydown = gererLesTouchesEnfoncee;
-        document.onkeyup = gererLesTouchesLachee;
-
-        toucheDroiteEnfoncee = false;
-        toucheGaucheEnfoncee = false;
-        toucheHautEnfoncee = false;
-        toucheBasEnfoncee = false;
     }
 
 
@@ -83,7 +83,6 @@
     }
 
     function gererNouvellesPositions(x, y, id) {
-
         for (var i = 0; i < listeJoueur.length; i++) {
             if (id == listeJoueur[i].id) {
                 listeJoueur[i].setPositionx(x);
@@ -96,53 +95,34 @@
 
         switch (evenement.keyCode) {
             case configuration.droite:
-                if (!toucheDroiteEnfoncee) {
+                //if (!toucheDroiteEnfoncee && etatDirection.droite == etatDirectionCourant) {
                     connexion.envoyerTouchesEnfoncee('droite', true);
                     toucheDroiteEnfoncee = true;
-                }
+                    //etatDirectionCourant = etatDirection.droite;
+                //}
                 break;
             case configuration.bas:
-                if (!toucheBasEnfoncee) {
+                //if (!toucheBasEnfoncee) {
                     connexion.envoyerTouchesEnfoncee('bas', true);
                     toucheBasEnfoncee = true;
-                }
+                //}
                 break;
             case configuration.gauche:
-                if (!toucheGaucheEnfoncee) {
+                //if (!toucheGaucheEnfoncee) {
                     connexion.envoyerTouchesEnfoncee('gauche', true);
                     toucheGaucheEnfoncee = true;
-                }
+                //}
                 break;
 
             case configuration.haut:
-                if (!toucheHautEnfoncee) {
+                //if (!toucheHautEnfoncee) {
                     connexion.envoyerTouchesEnfoncee('haut', true);
                     toucheHautEnfoncee = true;
-                }
+                //}
                 break;
         }
     }
 
-    function gererLesTouchesLachee(evenement) {
-        switch (evenement.keyCode) {
-            case configuration.droite:
-                connexion.envoyerTouchesEnfoncee('droite', false);
-                toucheDroiteEnfoncee = false;
-                break;
-            case configuration.bas:
-                connexion.envoyerTouchesEnfoncee('bas', false);
-                toucheBasEnfoncee = false;
-                break;
-            case configuration.gauche:
-                connexion.envoyerTouchesEnfoncee('gauche', false);
-                toucheGaucheEnfoncee = false;
-                break;
-            case configuration.haut:
-                connexion.envoyerTouchesEnfoncee('haut', false);
-                toucheHautEnfoncee = false;
-                break;
-        }
-    }
 
 
     initialiser();

@@ -9,26 +9,36 @@ function Joueur(nouveauId) {
     this.pressBas;
     this.maxVitesse;
     this.estCreer;
+    this.etatDirectionCourant;
+
+    const etatDirection = {
+        droite : "droite",
+        gauche : "gauche",
+        haut : "haut",
+        bas : "bas"
+    }
 
 
     function initialiser(){
         console.log("initialiser");
         joueur.x = 0;
         joueur.y = 0;
-        joueur.pressGauche = false;
+        /* joueur.pressGauche = false;
         joueur.pressDroite = false;
         joueur.pressHaut = false;
-        joueur.pressBas = false;
-        joueur.maxVitesse = 10;
+        joueur.pressBas = false; */
+        joueur.etatDirectionCourant = etatDirection.bas;
+        joueur.maxVitesse = 20;
         joueur.id = nouveauId;
         joueur.estCreer = false;
     }
 
     this.mettreAjourPosition = function () {
-        if (joueur.pressDroite) joueur.x += joueur.maxVitesse;
-        if (joueur.pressGauche)  joueur.x -= joueur.maxVitesse;
-        if (joueur.pressHaut) joueur.y -= joueur.maxVitesse;
-        if (joueur.pressBas) joueur.y += joueur.maxVitesse;
+        console.log("test");
+        if (etatDirection.droite == joueur.etatDirectionCourant ) joueur.x += joueur.maxVitesse;
+        if (etatDirection.gauche == joueur.etatDirectionCourant)  joueur.x -= joueur.maxVitesse;
+        if (etatDirection.haut == joueur.etatDirectionCourant) joueur.y -= joueur.maxVitesse;
+        if (etatDirection.bas == joueur.etatDirectionCourant) joueur.y += joueur.maxVitesse;
     }
 
     initialiser();

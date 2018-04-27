@@ -5,7 +5,8 @@ Joueur = require('./Joueur.js');
 var nombreClients;
 var listeConnexion = [];
 var listeJoueur = [];
-var listeJoueur = [];
+var socket;
+//var listeJoueur = [];
 
 
 
@@ -25,6 +26,7 @@ function initialiser() {
     socket.on('connection', gererConnexion);
 
     setInterval(mettreAJourPosition, 1000 / 25);
+
 }
 
 console.log("Server started");
@@ -48,11 +50,14 @@ function gererConnexion(connexion) {
             listeJoueurJSON = recupererListeJoueurJSON();
             //console.log(listeJoueurJSON);
             listeConnexion[idConnexion].emit('connexionJoueur', listeJoueurJSON);
+            
+
         }
     }
     connexion.on('disconnect', gererDeconnexionClient);
     connexion.on('toucheEnfoncee', gererToucheEnfoncee);
     connexion.on('etatConnexion', recevoirEtatConnexion);
+    
 
 }
 function recevoirEtatConnexion(estConnecter)
@@ -64,27 +69,18 @@ function recevoirEtatConnexion(estConnecter)
 
 function gererDeconnexionClient(evenement) {
     console.log("gererDeconnexion" + this.id);
+    var joueurDeconnecter = listeJoueur[this.id];
+    listeConnexion[this.id].emit('logout', joueurDeconnecter);
     delete listeConnexion[this.id];
     delete listeJoueur[this.id];
+
 }
 
 function gererToucheEnfoncee(evenement) {
-    switch (evenement.directionCourante) {
-        case 'gauche':
-            listeJoueur[this.id].pressGauche = evenement.etatCourant;
-            break;
-        case 'droite':
-            listeJoueur[this.id].pressDroite = evenement.etatCourant;
-            break;
-        case 'haut':
-            listeJoueur[this.id].pressHaut = evenement.etatCourant;
-            break;
-        case 'bas':
-            listeJoueur[this.id].pressBas = evenement.etatCourant;
-            break;
-    }
+    
+    listeJoueur[this.id].etatDirectionCourant = evenement.directionCourante;
+        
 }
-
 function recupererListeJoueurJSON()
 {
     var listeJoueurActif = [];

@@ -38,8 +38,24 @@
         connexion = new ConnexionNode(recupererJoueurInitial,
             recupererListeJoueur,
             gererNouvellesPositions);
-
+ 
         document.onkeydown = gererLesTouchesEnfoncee;
+        setInterval(collisionnementJoueur, 1000/25);
+
+    }
+
+    function collisionnementJoueur()
+    {
+        for (ordreJoueurClient in listeJoueur)
+        {
+            if(joueur.id != listeJoueur[ordreJoueurClient].id)
+            {
+                if(joueur.rectangleJoueur().intersects(listeJoueur[ordreJoueurClient].rectangleJoueur())){
+
+                    console.log("INTERSECTION");
+                } 
+            }
+        }
     }
 
 
@@ -66,13 +82,13 @@
 
     function recupererJoueurInitial(listeJoueurServeur) {
         if (!listeJoueur.length) {
-            console.log("test");
             var joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
 
-            joueur = new Joueur(scene, joueurInitial);
+            joueur = new Joueur(scene,joueurInitial);
             joueur.id = joueurInitial.id;
             listeJoueur.push(joueur);
             joueur.afficher();
+
 
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
         }
@@ -80,7 +96,10 @@
 
     function rafraichirEcran(evenement) {
         scene.update(evenement);
+
     }
+
+    
 
     function gererNouvellesPositions(x, y, id) {
         for (var i = 0; i < listeJoueur.length; i++) {

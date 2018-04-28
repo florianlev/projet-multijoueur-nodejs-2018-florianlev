@@ -23,10 +23,6 @@ function Joueur(nouveauId) {
         console.log("initialiser");
         joueur.x = 0;
         joueur.y = 0;
-        /* joueur.pressGauche = false;
-        joueur.pressDroite = false;
-        joueur.pressHaut = false;
-        joueur.pressBas = false; */
         joueur.etatDirectionCourant = etatDirection.bas;
         joueur.maxVitesse = 20;
         joueur.id = nouveauId;
@@ -34,7 +30,6 @@ function Joueur(nouveauId) {
     }
 
     this.mettreAjourPosition = function () {
-        console.log("test");
         if (etatDirection.droite == joueur.etatDirectionCourant ) joueur.x += joueur.maxVitesse;
         if (etatDirection.gauche == joueur.etatDirectionCourant)  joueur.x -= joueur.maxVitesse;
         if (etatDirection.haut == joueur.etatDirectionCourant) joueur.y -= joueur.maxVitesse;

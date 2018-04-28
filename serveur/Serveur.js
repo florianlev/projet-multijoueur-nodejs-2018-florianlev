@@ -32,8 +32,6 @@ function initialiser() {
 console.log("Server started");
 
 
-
-
 function gererConnexion(connexion) {
     nombreClients++;
     connexion.id = nombreClients;

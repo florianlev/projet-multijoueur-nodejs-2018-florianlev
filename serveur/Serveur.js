@@ -6,6 +6,7 @@ var nombreClients;
 var listeConnexion = [];
 var listeJoueur = [];
 var socket;
+var commencerPartie;
 //var listeJoueur = [];
 
 
@@ -26,6 +27,7 @@ function initialiser() {
     socket.on('connection', gererConnexion);
 
     setInterval(mettreAJourPosition, 1000 / 25);
+    commencerPartie = false;
 
 }
 
@@ -43,23 +45,33 @@ function gererConnexion(connexion) {
 
     listeJoueur[connexion.id] = joueur;
 
-    for (idConnexion = 0; idConnexion < listeConnexion.length; idConnexion++) {
-        if (listeConnexion[idConnexion]) {
-            listeJoueurJSON = recupererListeJoueurJSON();
-            //console.log(listeJoueurJSON);
-            listeConnexion[idConnexion].emit('connexionJoueur', listeJoueurJSON);
-            
 
+        for (idConnexion = 0; idConnexion < listeConnexion.length; idConnexion++) {
+            if (listeConnexion[idConnexion]) {
+                listeJoueurJSON = recupererListeJoueurJSON();
+                //console.log(listeJoueurJSON);
+                listeConnexion[idConnexion].emit('connexionJoueur', listeJoueurJSON);
+
+
+            }
+    }
+
+    if(nombreClients == 2)
+    {
+        for (var idConnexion in listeConnexion)
+        {
+            commencerPartie = true;
+            listeConnexion[idConnexion].emit('commencerPartie',commencerPartie);
+        
         }
     }
     connexion.on('disconnect', gererDeconnexionClient);
     connexion.on('toucheEnfoncee', gererToucheEnfoncee);
     connexion.on('etatConnexion', recevoirEtatConnexion);
-    
+
 
 }
-function recevoirEtatConnexion(estConnecter)
-{
+function recevoirEtatConnexion(estConnecter) {
     //console.log("estConnecter = " + estConnecter);
     listeJoueur[this.id].estCreer = estConnecter;
     //console.log(listeJoueur[this.id].estCreer);
@@ -75,16 +87,15 @@ function gererDeconnexionClient(evenement) {
 }
 
 function gererToucheEnfoncee(evenement) {
-    
+
     listeJoueur[this.id].etatDirectionCourant = evenement.directionCourante;
-        
+
 }
-function recupererListeJoueurJSON()
-{
+function recupererListeJoueurJSON() {
     var listeJoueurActif = [];
     for (var idJoueur in listeJoueur) {
-        if (listeJoueur[idJoueur]) 
-            listeJoueurActif.push(listeJoueur[idJoueur]);     
+        if (listeJoueur[idJoueur])
+            listeJoueurActif.push(listeJoueur[idJoueur]);
     }
     return JSON.stringify(listeJoueurActif);
 
@@ -96,11 +107,11 @@ function mettreAJourPosition() {
         if (listeJoueur[idJoueur]) {
             joueur = listeJoueur[idJoueur];
             joueur.mettreAjourPosition();
-            listeJoueurActif.push(joueur);     
+            listeJoueurActif.push(joueur);
         }
     }
     var listeJoueursJson = JSON.stringify(listeJoueurActif);
-   
+
     //console.log(listeJoueursJson);
     for (var idConnexion in listeConnexion) {
         if (listeConnexion[idConnexion]) {

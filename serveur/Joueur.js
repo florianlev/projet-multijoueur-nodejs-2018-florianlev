@@ -24,7 +24,7 @@ function Joueur(nouveauId) {
         joueur.x = 0;
         joueur.y = 0;
         joueur.etatDirectionCourant = etatDirection.bas;
-        joueur.maxVitesse = 20;
+        joueur.maxVitesse = 10;
         joueur.id = nouveauId;
         joueur.estCreer = false;
     }

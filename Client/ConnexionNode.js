@@ -1,6 +1,7 @@
 function ConnexionNode(recupererJoueurInitial,
                         recupererListeJoueur,
-                        gererNouvellesPositions
+                        gererNouvellesPositions,
+                        recevoirDebutDePartie
                         ) {
     var connexion;
 
@@ -14,10 +15,12 @@ function ConnexionNode(recupererJoueurInitial,
         //connexion.on('disconnect', gererDeconnexionJoueur);
     }
 
-    function gererPreparationDebutPartie()
+    function gererPreparationDebutPartie(evenement)
     {
         console.log("gererPreparationDebutPartie()");
+
         connexion.on('nouvellesPositions', chargerNouvellesPositions);
+        recevoirDebutDePartie(evenement);
 
     }
 

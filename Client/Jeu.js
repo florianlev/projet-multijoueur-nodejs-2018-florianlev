@@ -9,6 +9,10 @@
     var autreJoueur;
     var idCourant;
 
+    var estDemarer;
+    var joueurInitial;
+    var joueurInitialPret;
+
     var toucheDroiteEnfoncee;
     var toucheGaucheEnfoncee;
     var toucheHautEnfoncee;
@@ -35,14 +39,30 @@
         console.log("initialiserClient()");
         canvas = document.getElementById('ctx');
         scene = new createjs.Stage(canvas);
-        canvas.font = '30px Arial';
+        estDemarer = false;
+        //canvas = document.getElementById('ctx');
+        //scene = new createjs.Stage(canvas);
         connexion = new ConnexionNode(recupererJoueurInitial,
             recupererListeJoueur,
-            gererNouvellesPositions);
+            gererNouvellesPositions,
+            recevoirDebutDePartie);
 
+        //document.onkeydown = gererLesTouchesEnfoncee;
+        // setInterval(collisionnementJoueur, 1000 / 25);
+
+    }
+
+    function recevoirDebutDePartie(debutPartie) {
+        estDemarer = debutPartie;
+        debutDePartie();
+
+    }
+
+    function debutDePartie() {
+        console.log("debutDePartie()");        
         document.onkeydown = gererLesTouchesEnfoncee;
-       // setInterval(collisionnementJoueur, 1000 / 25);
 
+        
     }
 
     function collisionnementJoueur() {
@@ -79,16 +99,27 @@
     }
 
     function recupererJoueurInitial(listeJoueurServeur) {
-        if (!listeJoueur.length) {
-            var joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
+        console.log("estDemarer" + estDemarer);
+        if (joueurInitialPret) {
+            console.log("afficher()");
 
+        }
+        if (!listeJoueur.length) {
+            joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
+
+            /*joueur = new Joueur(scene, joueurInitial);
+            joueur.id = joueurInitial.id;
+            listeJoueur.push(joueur); */
+
+            console.log(scene);
             joueur = new Joueur(scene, joueurInitial);
             joueur.id = joueurInitial.id;
             listeJoueur.push(joueur);
             joueur.afficher();
 
-
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
+
+            joueurInitialPret = true;
         }
     }
 

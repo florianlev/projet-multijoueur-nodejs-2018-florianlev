@@ -25,8 +25,11 @@ function Joueur(scene, joueurInitial)
         joueur.id = joueurInitial.id;
         dessinerJoueur();
         this.estCreer = false;
+    }
 
-
+    this.setScene = function(uneScene)
+    {
+        scene = uneScene;
     }
 
     /*this.tracerChemin = function()
@@ -69,6 +72,8 @@ function Joueur(scene, joueurInitial)
     }
     this.afficher = function()
     {
+
+        console.log("afficher()");
         scene.addChild(dessin);
         
 

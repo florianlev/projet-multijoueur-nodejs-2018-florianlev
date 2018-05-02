@@ -59,12 +59,22 @@ function gererConnexion(connexion) {
     if(nombreClients >= 2)
     {
         gererDebutDePartie(connexion);
+        setVitesseListeJoueur(10);
     }
 
     connexion.on('disconnect', gererDeconnexionClient);
     connexion.on('etatConnexion', recevoirEtatConnexion);
     
 
+}
+
+function setVitesseListeJoueur(vitesse)
+{
+    console.log("setVitesse");
+    for (var idJoueur in listeJoueur) {
+        console.log(listeJoueur[idJoueur].id);
+        listeJoueur[0].setVitesse(10);
+    }
 }
 
 function gererDebutDePartie(connexion)

@@ -24,9 +24,14 @@ function Joueur(nouveauId) {
         joueur.x = entierAleatoire(0,1500);
         joueur.y = entierAleatoire(0,1500);
         joueur.etatDirectionCourant = etatDirection.bas;
-        joueur.maxVitesse = 10;
+        joueur.maxVitesse = 0;
         joueur.id = nouveauId;
         joueur.estCreer = false;
+    }
+
+    this.setVitesse = function(vitesse)
+    {
+        joueur.maxVitesse = vitesse;
     }
 
     this.mettreAjourPosition = function () {

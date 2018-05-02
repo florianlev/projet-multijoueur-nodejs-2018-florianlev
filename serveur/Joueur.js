@@ -21,8 +21,8 @@ function Joueur(nouveauId) {
 
     function initialiser(){
         console.log("initialiser");
-        joueur.x = 0;
-        joueur.y = 0;
+        joueur.x = entierAleatoire(0,1500);
+        joueur.y = entierAleatoire(0,1500);
         joueur.etatDirectionCourant = etatDirection.bas;
         joueur.maxVitesse = 10;
         joueur.id = nouveauId;
@@ -34,6 +34,11 @@ function Joueur(nouveauId) {
         if (etatDirection.gauche == joueur.etatDirectionCourant)  joueur.x -= joueur.maxVitesse;
         if (etatDirection.haut == joueur.etatDirectionCourant) joueur.y -= joueur.maxVitesse;
         if (etatDirection.bas == joueur.etatDirectionCourant) joueur.y += joueur.maxVitesse;
+    }
+
+    function entierAleatoire(min, max)
+    {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     initialiser();

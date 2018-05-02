@@ -1,27 +1,25 @@
 function ConnexionNode(recupererJoueurInitial,
                         recupererListeJoueur,
-                        gererNouvellesPositions,
-                        gererCommencerPartie
+                        gererNouvellesPositions
                         ) {
     var connexion;
 
     
     function initialiser() {
         connexion = io.connect('http://127.0.0.1:2000');
-        connexion.on('nouvellesPositions', chargerNouvellesPositions);
         connexion.on('connexionJoueur', gererConnexionJoueur);
         connexion.on('logout', gererDeconnexionJoueur);
-        connexion.on('commencerPartie', recevoirCommencerPartie);
-
+        connexion.on('nombreJoueurPret', gererPreparationDebutPartie);
 
         //connexion.on('disconnect', gererDeconnexionJoueur);
     }
 
-    function recevoirCommencerPartie(evenement)
+    function gererPreparationDebutPartie()
     {
-        gererCommencerPartie();
-    }
+        console.log("gererPreparationDebutPartie()");
+        connexion.on('nouvellesPositions', chargerNouvellesPositions);
 
+    }
 
     function chargerNouvellesPositions(evenement) {
         listeJoueurServeur = JSON.parse(evenement);

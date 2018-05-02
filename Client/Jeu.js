@@ -8,7 +8,6 @@
     var listeJoueur = [];
     var autreJoueur;
     var idCourant;
-    var pretACommencerPartie;
 
     var toucheDroiteEnfoncee;
     var toucheGaucheEnfoncee;
@@ -35,52 +34,15 @@
 
         console.log("initialiserClient()");
         canvas = document.getElementById('ctx');
-        
         scene = new createjs.Stage(canvas);
+        canvas.font = '30px Arial';
         connexion = new ConnexionNode(recupererJoueurInitial,
-                                        recupererListeJoueur,
-                                        gererNouvellesPositions,
-                                        gererCommencerPartie);
-
-
-        jeuVue = new JeuVue();
-        accueilVue = new AccueilVue();
-        gagnerVue = new GagnerVue();
-        perduVue = new PerduVue();
-        pretACommencerPartie = false;
-
-        accueilVue.afficher();
-        //jeuVue.afficher();
-
+            recupererListeJoueur,
+            gererNouvellesPositions);
 
         document.onkeydown = gererLesTouchesEnfoncee;
-        window.addEventListener("hashchange", interpreterEvenementLocation);
+       // setInterval(collisionnementJoueur, 1000 / 25);
 
-        //setInterval(collisionnementJoueur, 1000 / 25);
-
-    }
-
-    function gererCommencerPartie()
-    {
-        pretACommencerPartie = true;
-        commencerAJouer();
-    }
-
-
-    function commencerAJouer()
-    {
-        console.log("commencerAjouer()");
-    }
-
-    function interpreterEvenementLocation()
-    {
-        var intructionNavigation = window.location.hash;
-        if (!intructionNavigation || intructionNavigation.match(/^#$/) || intructionNavigation.match(/^#accueil$/)) {
-			accueilVue.afficher();
-		}
-		else if (intructionNavigation.match(/^#jeu$/)) {
-			jeuVue.afficher();
-		}
     }
 
     function collisionnementJoueur() {
@@ -178,7 +140,7 @@
 
             case configuration.enter:
                 collisionnementJoueur();
-            break;
+                break;
         }
     }
 

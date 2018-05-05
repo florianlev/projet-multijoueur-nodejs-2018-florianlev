@@ -1,7 +1,7 @@
 function ConnexionNode(recupererJoueurInitial,
                         recupererListeJoueur,
                         gererNouvellesPositions,
-                        recevoirDebutDePartie
+                        recevoirDebutDePartie,
                         ) {
     var connexion;
 
@@ -10,17 +10,17 @@ function ConnexionNode(recupererJoueurInitial,
         connexion = io.connect('http://127.0.0.1:2000');
         connexion.on('connexionJoueur', gererConnexionJoueur);
         connexion.on('logout', gererDeconnexionJoueur);
-        connexion.on('nombreJoueurPret', gererPreparationDebutPartie);
-
+        //connexion.on('nombreJoueurPret', gererPreparationDebutPartie);
+        connexion.on('partieEstCommencer', gererCommencementPartie);
         //connexion.on('disconnect', gererDeconnexionJoueur);
     }
 
-    function gererPreparationDebutPartie(evenement)
+    function gererCommencementPartie(evenement)
     {
-        console.log("gererPreparationDebutPartie()");
+        console.log("gererCommencementPartie()");
+        recevoirDebutDePartie(evenement);
 
         connexion.on('nouvellesPositions', chargerNouvellesPositions);
-        recevoirDebutDePartie(evenement);
 
     }
 
@@ -50,6 +50,11 @@ function ConnexionNode(recupererJoueurInitial,
         //console.log(evenement.id);
     }
 
+    this.envoyerJoueurPretAJouer = function(joueurPret){
+        console.log("envoyerJoueurPretAJouer()");
+        connexion.emit('joueurEstPret',joueurPret);
+    }
+
     this.changerEtatEstCreer = function(estCreer)
     {
         connexion.emit('etatConnexion', estCreer);
@@ -59,6 +64,7 @@ function ConnexionNode(recupererJoueurInitial,
     this.envoyerTouchesEnfoncee = function (direction, etat) {  
         connexion.emit('toucheEnfoncee', { directionCourante: direction, etatCourant: etat });
     }
+
 
     initialiser();
 

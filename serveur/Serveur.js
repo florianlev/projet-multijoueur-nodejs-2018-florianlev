@@ -7,9 +7,7 @@ var listeConnexion = [];
 var listeJoueur = [];
 var socket;
 var debutPartie;
-//var listeJoueur = [];
-
-
+var partieEstCommencer;
 
 function initialiser() {
     console.log("initialiser()");
@@ -24,9 +22,7 @@ function initialiser() {
     server.listen(2000)
 
     var socket = io.listen(server);
-
     socket.on('connection', gererConnexion);
-
     setInterval(mettreAJourPosition, 1000 / 25);
 
 }
@@ -48,24 +44,41 @@ function gererConnexion(connexion) {
     for (idConnexion = 0; idConnexion < listeConnexion.length; idConnexion++) {
         if (listeConnexion[idConnexion]) {
             listeJoueurJSON = recupererListeJoueurJSON();
-            //console.log(listeJoueurJSON);
             listeConnexion[idConnexion].emit('connexionJoueur', listeJoueurJSON);
 
-            listeConnexion[idConnexion].emit('nombreJoueurPret', debutPartie);
+            //listeConnexion[idConnexion].emit('nombreJoueurPret', debutPartie);
             
         }
     }
+    
+    console.log("nombreJoueur" + nombreClients);
 
-    if(nombreClients >= 2)
-    {
-        gererDebutDePartie(connexion);
-        setVitesseListeJoueur(10);
-    }
-
+    connexion.on('toucheEnfoncee', gererToucheEnfoncee);
     connexion.on('disconnect', gererDeconnexionClient);
     connexion.on('etatConnexion', recevoirEtatConnexion);
-    
+    connexion.on('joueurEstPret', gererDebut);
 
+}
+
+
+function gererDebut(evenement)
+{
+    console.log("Un joueur est pret a jouer!");
+
+    console.log(evenement);
+    if(nombreClients >= 2 && evenement)
+    {
+        console.log("debut");
+        debutPartie = true;
+        //gererDebutDePartie(connexion);
+        setVitesseListeJoueur(10);
+        partieEstCommencer = true;
+        for (var idConnexion in listeConnexion) {
+            
+            listeConnexion[idConnexion].emit('partieEstCommencer', partieEstCommencer);
+        }
+        
+    } 
 }
 
 function setVitesseListeJoueur(vitesse)
@@ -73,22 +86,13 @@ function setVitesseListeJoueur(vitesse)
     console.log("setVitesse");
     for (var idJoueur in listeJoueur) {
         console.log(listeJoueur[idJoueur].id);
-        listeJoueur[0].setVitesse(10);
-    }
-}
-
-function gererDebutDePartie(connexion)
-{
-    console.log("gererDebutDePartie()");
-    debutPartie = true;
-    connexion.on('toucheEnfoncee', gererToucheEnfoncee);
+        listeJoueur[idJoueur].maxVitesse = vitesse;
+    } 
 }
 
 function recevoirEtatConnexion(estConnecter)
 {
-    //console.log("estConnecter = " + estConnecter);
     listeJoueur[this.id].estCreer = estConnecter;
-    //console.log(listeJoueur[this.id].estCreer);
 }
 
 function gererDeconnexionClient(evenement) {

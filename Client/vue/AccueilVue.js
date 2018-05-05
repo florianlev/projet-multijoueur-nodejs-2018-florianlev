@@ -24,7 +24,7 @@ AccueilVue = function()
 										evenement.preventDefault(); 
 										return false;
 									 });
-        boutonJouer = document.getElementById("bouton-jouer");
+        boutonPret = document.getElementById("bouton-pret");
         champNom = document.getElementById("pseudo").value;
 		//boutonJouer.addEventListener("click", enregistrerNom);
     }

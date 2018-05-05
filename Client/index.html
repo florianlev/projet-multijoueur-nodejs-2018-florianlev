@@ -7,10 +7,55 @@
 </head>
 
 <body>
-	<canvas id="ctx" width="1500" height="1500" style="border:1px solid #000000;"></canvas>
+
+	<script type=text/plain id ="page-accueil">
+		<header>
+				<h1>PAPERE</h1>
+		</header>
+
+		<section id="section-accueil">
+				<p>Veuillez inscrire votre nom puis cliquer sur jouer !</p>
+		
+
+				<!-- En utilisant post on ne touche pas à l'URL-->
+				<form id="form-accueil" method="post">
+					<div>
+						<label for="nom">Votre nom de joueur</label>
+						<input type="text" id="pseudo" name="pseudo"></input>
+					</div>
+		
+					<!-- La navigation se fait par l'ajout de #jeu à l'URL
+						 Il n'y a pas de rechargement de la page car c'est une technique de navigation
+						 HTML dans une même page. -->K
+					<a id="bouton-pret" href="#attente">Jouer</a>
+
+				</form>
+			</section>
+	</script>
+
+	<script type=text/plain id ="page-jeu"> 
+		<section id= "section-jeu">
+		<canvas id="ctx" width="1500" height="1500" style="border:1px solid #000000;"></canvas>
+		</section>
+	</script>
+
+	<script type=text/plain id ="page-attente">
+		<section id="section-attente">
+			<div>
+			Page attente
+			</div>
+		</section>
+	</script>	
+
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
 
 	<script type="text/javascript" src="lib/createjs.min.js"></script>
+	<script type="text/javascript" src="vue/AccueilVue.js"></script>
+	<script type="text/javascript" src="vue/AttenteJoueurVue.js"></script>
+	<script type="text/javascript" src="vue/JeuVue.js"></script>
+
+
 	<script src="ConnexionNode.js"></script>
 	<script src="Joueur.js"></script>
 	<script src="Jeu.js"></script>

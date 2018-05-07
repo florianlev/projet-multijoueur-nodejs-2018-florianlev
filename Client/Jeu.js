@@ -1,6 +1,5 @@
 (function Jeu() {
 
-
     var joueur;
     var connexion;
     var canvas;
@@ -30,11 +29,12 @@
     }
     var vueCourante;
 
-    const vueActive = {
-        accueilVue: "accueilVue",
-        attenteVue: "attenteVue",
-        jeuVue: "jeuVue"
+    const etatEnJeu = {
+        enAttente: "enAttente",
+        enJeu: "enJeu"
     }
+
+    var etatCourantJeu;
 
 
     var etatDirectionCourant;
@@ -51,7 +51,7 @@
 
         console.log("initialiserClient()");
         
-        
+        etatCourantJeu = etatEnJeu.enAttente;
         estDemarer = false;
         pretAAfficher = false;
         canvasEstExistant = false;
@@ -70,20 +70,22 @@
         connexion = new ConnexionNode(recupererJoueurInitial,
             recupererListeJoueur,
             gererNouvellesPositions,
-            recevoirDebutDePartie);
+            recevoirDebutDePartie,
+            gererPositionInitiale);
+    }
+
+    function gererPositionInitiale(evenement)
+    {
+        joueur.setPositionx(evenement.x);
+        joueur.setPositiony(evenement.y);
     }
 
     function initialiserJeu()
     {
         console.log("initialiserJeu()");
-        canvas = document.getElementById('ctx');
-        scene = new createjs.Stage(canvas);
-        autreJoueurCourant.setScene(scene);
-        setInterval(afficherLesjoueurs, 10);
-        console.log("CANVAS EXISTANT");
-        console.log(canvas);
+
         pretAAfficher = true;
-        debutDePartie();
+        document.onkeydown = gererLesTouchesEnfoncee;
 
     }
 
@@ -92,30 +94,25 @@
         var intructionNavigation = window.location.hash;
         if (!intructionNavigation || intructionNavigation.match(/^#$/) || intructionNavigation.match(/^#accueil$/)) {
             accueilVue.afficher();
-            vueCourante = vueActive.accueilVue;
-        }
-
-        else if (intructionNavigation.match(/^#attente$/))
-        {
-            vueCourante = vueActive.attenteVue;
-            console.log("En attente du second joueur");
-            attenteJoueurVue.afficher();
-            initialiserConnexion();
-            joueurPretACommencer = true;
-            connexion.envoyerJoueurPretAJouer(joueurPretACommencer);
-
         }
 
         else if (intructionNavigation.match(/^#jeu$/)) {
-            vueCourante = vueActive.jeuVue;
+            initialiserConnexion();
+            
             jeuVue.afficher();
-            initialiserJeu();
+
+            if(etatCourantJeu == etatEnJeu.enAttente)
+            {
+                console.log("En attente d'un second joueur ! ");
+                joueurPretACommencer = true;
+                connexion.envoyerJoueurPretAJouer(joueurPretACommencer);
+            }
         }
     }
 
     function recevoirDebutDePartie(debutPartie) {
         console.log("recevoirDebutDePartie()");
-        window.location = "#jeu";
+        etatCourantJeu = etatEnJeu.enJeu;
     }
 
     function debutDePartie() {
@@ -125,7 +122,7 @@
 
     function collisionnementJoueur() {
         for (ordreJoueurClient in listeJoueur) {
-            if (joueur.id != listeJoueur[ordreJoueurCslient].id) {
+            if (joueur.id != listeJoueur[ordreJoueurClient].id) {
                 if (joueur.rectangleJoueur().intersects(listeJoueur[ordreJoueurClient].rectangleJoueur())) {
                     console.log("INTERSECTION");
                 }
@@ -146,58 +143,35 @@
                 }
             }
             if (!estTrouvee) {
-                console.log("!estTrouvee");
+                console.log(joueurInitialPret);
                 joueurServeur = listeJoueurServeur[ordreJoueurServeur];
                 autreJoueur = new Joueur(scene, joueurServeur);
                 listeJoueur.push(autreJoueur);
-                autreJoueurCourant = autreJoueur;
-                //autreJoueurCourant = listeJoueur[ordreJoueurServeur];
-                //afficherLesjoueurs(autreJoueur);
+                autreJoueur.afficher();
                 connexion.changerEtatEstCreer(true);
+                initialiserJeu();
             }
         }
     }
 
     function recupererJoueurInitial(listeJoueurServeur) {
-        console.log("estDemarer" + estDemarer);
-        /* if (joueurInitialPret) {
-            console.log("afficher()");
 
-        } */
         if (!listeJoueur.length) {
+            canvas = document.getElementById('ctx');
+            scene = new createjs.Stage(canvas);
             joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
             console.log(scene);
             joueur = new Joueur(scene, joueurInitial);
             joueur.id = joueurInitial.id;
             listeJoueur.push(joueur);
-            joueurInitialClient = listeJoueur[0];
-            //afficherLesjoueurs();
-            /* joueur.afficher();
-            createjs.Ticker.addEventListener("tick", rafraichirEcran); */
-            joueurInitialPret = true;
-        }
-    }
-
-    function afficherLesjoueurs() {
-        console.log("joueurInitialPret " + joueurInitialPret);
-        console.log("pretAAfficher " + pretAAfficher);
-
-        if (pretAAfficher && scene) {
-            console.log("testafficherAutreJoueur");
-            console.log(scene);
-            autreJoueurCourant.afficher();
-        }
-        if (joueurInitialPret && pretAAfficher && scene) {
-            joueurInitialClient.setScene(scene);
-            console.log("testJoueurinitial");
-            joueurInitialClient.afficher();
+            joueur.afficher();
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
+            joueurInitialPret = true;
         }
     }
 
     function rafraichirEcran(evenement) {
         scene.update(evenement);
-
     }
 
     function gererNouvellesPositions(x, y, id) {
@@ -234,8 +208,6 @@
                 break;
         }
     }
-
-
 
     initialiser();
 

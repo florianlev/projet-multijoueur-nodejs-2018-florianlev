@@ -64,6 +64,8 @@ function gererConnexion(connexion) {
 function gererDebut(evenement)
 {
     console.log("Un joueur est pret a jouer!");
+    listeConnexion[this.id].emit('positionInitiale', {x : joueur.x, y: joueur.y});
+
 
     console.log(evenement);
     if(nombreClients >= 2 && evenement)

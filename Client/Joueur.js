@@ -72,11 +72,8 @@ function Joueur(scene, joueurInitial)
     }
     this.afficher = function()
     {
-
-        console.log(scene);
         scene.addChild(dessin);
-        
-
+    
     }
 
     initialiser();

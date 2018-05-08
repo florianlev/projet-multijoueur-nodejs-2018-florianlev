@@ -83,7 +83,7 @@
     function initialiserJeu()
     {
         console.log("initialiserJeu()");
-
+        document.getElementById('texte-attente').style.visibility='hidden';
         pretAAfficher = true;
         document.onkeydown = gererLesTouchesEnfoncee;
 
@@ -97,10 +97,10 @@
         }
 
         else if (intructionNavigation.match(/^#jeu$/)) {
+ 
             initialiserConnexion();
             
             jeuVue.afficher();
-
             if(etatCourantJeu == etatEnJeu.enAttente)
             {
                 console.log("En attente d'un second joueur ! ");
@@ -125,6 +125,7 @@
             if (joueur.id != listeJoueur[ordreJoueurClient].id) {
                 if (joueur.rectangleJoueur().intersects(listeJoueur[ordreJoueurClient].rectangleJoueur())) {
                     console.log("INTERSECTION");
+                    connexion.joueurMort(listeJoueur[ordreJoueurClient]);
                 }
             }
         }
@@ -150,6 +151,7 @@
                 autreJoueur.afficher();
                 connexion.changerEtatEstCreer(true);
                 initialiserJeu();
+                
             }
         }
     }

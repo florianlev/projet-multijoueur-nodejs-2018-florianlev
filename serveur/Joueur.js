@@ -10,6 +10,7 @@ function Joueur(nouveauId) {
     this.maxVitesse;
     this.estCreer;
     this.etatDirectionCourant;
+    this.score;
 
     const etatDirection = {
         droite : "droite",
@@ -18,11 +19,21 @@ function Joueur(nouveauId) {
         bas : "bas"
     }
 
+    const etatVie = {
+        vivant: "vivant",
+        mort: "mort"
+    }
+
+    this.etatVieCourant;
+
 
     function initialiser(){
-        console.log("initialiser");
-        joueur.x = entierAleatoire(0,1500);
-        joueur.y = entierAleatoire(0,1500);
+        console.log("initialiserJoueur");
+
+        joueur.etatVieCourant = etatVie.vivant;
+
+        joueur.x = entierAleatoire(0,700);
+        joueur.y = entierAleatoire(0,700);
         joueur.etatDirectionCourant = etatDirection.bas;
         joueur.maxVitesse = 0;
         joueur.id = nouveauId;

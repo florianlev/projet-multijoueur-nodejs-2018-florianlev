@@ -5,6 +5,7 @@ Joueur = require('./Joueur.js');
 var nombreClients;
 var listeConnexion = [];
 var listeJoueur = [];
+var listeJoueurMort = [];
 var socket;
 var debutPartie;
 var partieEstCommencer;
@@ -54,10 +55,27 @@ function gererConnexion(connexion) {
     console.log("nombreJoueur" + nombreClients);
 
     connexion.on('toucheEnfoncee', gererToucheEnfoncee);
+    connexion.on('joueurMort', gererMortDunJoueur);
     connexion.on('disconnect', gererDeconnexionClient);
     connexion.on('etatConnexion', recevoirEtatConnexion);
     connexion.on('joueurEstPret', gererDebut);
 
+}
+
+function gererMortDunJoueur(unJoueur)
+{
+    console.log('gererMortDunJoueur()');
+    console.log("listeJoueur avant : ")
+    console.log(listeJoueur);
+    listeJoueurMort.push(unJoueur);
+    delete listeJoueur[unJoueur.id];
+    console.log("listeJoueur apres : ")
+    console.log(listeJoueur);
+
+    console.log("listeJoueurMort : ");
+    console.log(listeJoueurMort);
+
+    
 }
 
 
@@ -73,7 +91,7 @@ function gererDebut(evenement)
         console.log("debut");
         debutPartie = true;
         //gererDebutDePartie(connexion);
-        setVitesseListeJoueur(10);
+        setVitesseListeJoueur(1);
         partieEstCommencer = true;
         for (var idConnexion in listeConnexion) {
             

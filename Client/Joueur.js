@@ -4,6 +4,14 @@ function Joueur(scene, joueurInitial)
     var dessin;
     var x;
     var y;
+    var score;
+
+    const etatVie = {
+        vivant: "vivant",
+        mort: "mort"
+    }
+    
+    var etatVieCourant;
 
     const d = 100;
     this.estCreer;
@@ -16,6 +24,7 @@ function Joueur(scene, joueurInitial)
     function initialiser()
     {
 
+        etatVieCourant = etatVie.vivant;
         estDessiner = false;
         dessin = new createjs.Shape();
         
@@ -32,21 +41,12 @@ function Joueur(scene, joueurInitial)
         scene = uneScene;
     }
 
-    /*this.tracerChemin = function()
-    {
-        
-        //dessin.graphics.beginFill("#ff0000").drawRect(x, y,100, 100);
-
-        ctx.fillRect(x,y,d,d);
-        ctx.fillStyle = "#FF0000";
-    }*/
-
 
     this.rectangleJoueur = function()
     {
         if(estDessiner)
         {
-            dessin.setBounds(dessin.x, dessin.y, 100, 100);
+            dessin.setBounds(dessin.x, dessin.y, 30, 30);
             dessinGetBound = dessin.getBounds();
             return dessinGetBound;
 
@@ -56,7 +56,7 @@ function Joueur(scene, joueurInitial)
     function dessinerJoueur()
     {
         estDessiner = true;
-        dessin.graphics.beginFill("#ff0000").drawRect(0, 0, 100, 100);
+        dessin.graphics.beginFill("#ff0000").drawRect(0, 0, 30, 30);
         
         //console.log(dessin.getBounds());
     }

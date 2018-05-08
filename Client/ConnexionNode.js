@@ -48,6 +48,11 @@ function ConnexionNode(recupererJoueurInitial,
 
     }
 
+    this.joueurMort = function(unJoueur)
+    {
+        connexion.emit('joueurMort', unJoueur);
+    }
+
     function gererDeconnexionJoueur(evenement)
     {
         console.log("gererDeconnexionJoueur()");

@@ -46,9 +46,6 @@ function gererConnexion(connexion) {
         if (listeConnexion[idConnexion]) {
             listeJoueurJSON = recupererListeJoueurJSON();
             listeConnexion[idConnexion].emit('connexionJoueur', listeJoueurJSON);
-
-            //listeConnexion[idConnexion].emit('nombreJoueurPret', debutPartie);
-            
         }
     }
     

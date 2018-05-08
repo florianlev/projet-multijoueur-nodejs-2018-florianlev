@@ -32,11 +32,10 @@
     const etatEnJeu = {
         enAttente: "enAttente",
         enJeu: "enJeu"
+        
     }
 
     var etatCourantJeu;
-
-
     var etatDirectionCourant;
 
     const configuration = {
@@ -50,7 +49,7 @@
     function initialiser() {
 
         console.log("initialiserClient()");
-        
+
         etatCourantJeu = etatEnJeu.enAttente;
         estDemarer = false;
         pretAAfficher = false;
@@ -64,8 +63,7 @@
         window.addEventListener("hashchange", interpreterEvenementLocation);
     }
 
-    function initialiserConnexion()
-    {
+    function initialiserConnexion() {
         console.log("initialiserConnexion()");
         connexion = new ConnexionNode(recupererJoueurInitial,
             recupererListeJoueur,
@@ -75,16 +73,14 @@
             gererMortJoueur);
     }
 
-    function gererPositionInitiale(evenement)
-    {
+    function gererPositionInitiale(evenement) {
         joueur.setPositionx(evenement.x);
         joueur.setPositiony(evenement.y);
     }
 
-    function initialiserJeu()
-    {
+    function initialiserJeu() {
         console.log("initialiserJeu()");
-        document.getElementById('texte-attente').style.visibility='hidden';
+        document.getElementById('texte-attente').style.visibility = 'hidden';
         pretAAfficher = true;
         document.onkeydown = gererLesTouchesEnfoncee;
 
@@ -98,12 +94,11 @@
         }
 
         else if (intructionNavigation.match(/^#jeu$/)) {
- 
+
             initialiserConnexion();
-            
+
             jeuVue.afficher();
-            if(etatCourantJeu == etatEnJeu.enAttente)
-            {
+            if (etatCourantJeu == etatEnJeu.enAttente) {
                 console.log("En attente d'un second joueur ! ");
                 joueurPretACommencer = true;
                 connexion.envoyerJoueurPretAJouer(joueurPretACommencer);
@@ -152,7 +147,7 @@
                 autreJoueur.afficher();
                 connexion.changerEtatEstCreer(true);
                 initialiserJeu();
-                
+
             }
         }
     }
@@ -212,10 +207,18 @@
         }
     }
 
-    function gererMortJoueur(joueur)
-    {
+    function gererMortJoueur(unJoueurMort) {
         console.log("gererMortJoueur");
-        console.log(joueur);
+        console.log(unJoueurMort.id);
+        for (ordreJoueurClient in listeJoueur) {
+            if (listeJoueur[ordreJoueurClient].id == unJoueurMort.id) {
+                console.log(listeJoueur[ordreJoueurClient].id);
+                console.log("GROSSE PUTE");
+            }
+        }
+        if (joueur.id == unJoueurMort.id) {
+            document.getElementById('texte-perdu').style.visibility = 'visible';
+        }
     }
 
     initialiser();

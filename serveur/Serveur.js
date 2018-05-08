@@ -59,23 +59,24 @@ function gererConnexion(connexion) {
     connexion.on('disconnect', gererDeconnexionClient);
     connexion.on('etatConnexion', recevoirEtatConnexion);
     connexion.on('joueurEstPret', gererDebut);
-
 }
 
 function gererMortDunJoueur(unJoueur)
 {
     console.log('gererMortDunJoueur()');
-    console.log("listeJoueur avant : ")
-    console.log(listeJoueur);
+
+    listeJoueur[unJoueur.id].etatVieCourant = listeJoueur[unJoueur.id].etatVie.mort;
+    console.log("etatCourant");
+    console.log(listeJoueur[unJoueur.id].etatVieCourant);
     listeJoueurMort.push(unJoueur);
-    delete listeJoueur[unJoueur.id];
-    console.log("listeJoueur apres : ")
-    console.log(listeJoueur);
+    listeJoueur[unJoueur.id].maxVitesse = 0;
+
+    for (var idConnexion in listeConnexion) {
+        listeConnexion[idConnexion].emit('mortDunJoueur', listeJoueur[unJoueur.id]);
+    }
 
     console.log("listeJoueurMort : ");
     console.log(listeJoueurMort);
-
-    
 }
 
 
@@ -97,7 +98,6 @@ function gererDebut(evenement)
             
             listeConnexion[idConnexion].emit('partieEstCommencer', partieEstCommencer);
         }
-        
     } 
 }
 

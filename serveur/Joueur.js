@@ -19,7 +19,7 @@ function Joueur(nouveauId) {
         bas : "bas"
     }
 
-    const etatVie = {
+    this.etatVie = {
         vivant: "vivant",
         mort: "mort"
     }
@@ -30,7 +30,7 @@ function Joueur(nouveauId) {
     function initialiser(){
         console.log("initialiserJoueur");
 
-        joueur.etatVieCourant = etatVie.vivant;
+        joueur.etatVieCourant = joueur.etatVie.vivant;
 
         joueur.x = entierAleatoire(0,700);
         joueur.y = entierAleatoire(0,700);

@@ -71,7 +71,8 @@
             recupererListeJoueur,
             gererNouvellesPositions,
             recevoirDebutDePartie,
-            gererPositionInitiale);
+            gererPositionInitiale,
+            gererMortJoueur);
     }
 
     function gererPositionInitiale(evenement)
@@ -209,6 +210,12 @@
                 collisionnementJoueur();
                 break;
         }
+    }
+
+    function gererMortJoueur(joueur)
+    {
+        console.log("gererMortJoueur");
+        console.log(joueur);
     }
 
     initialiser();

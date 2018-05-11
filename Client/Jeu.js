@@ -57,6 +57,8 @@
         //initialisation vues
         accueilVue = new AccueilVue();
         attenteJoueurVue = new AttenteJoueurVue();
+        gagnerVue = new GagnerVue();
+        perduVue = new PerduVue();
         jeuVue = new JeuVue();
         accueilVue.afficher();
 
@@ -104,6 +106,15 @@
                 joueurPretACommencer = true;
                 connexion.envoyerJoueurPretAJouer(joueurPretACommencer);
             }
+        }
+
+        else if (intructionNavigation.match(/^#gagner$/))
+        {
+            gagnerVue.afficher();
+        }
+        else if (intructionNavigation.match(/^#perdu$/))
+        {
+            perduVue.afficher();
         }
     }
 
@@ -189,7 +200,7 @@
         console.log(joueurGagnant.id);
         if(joueurGagnant.id == joueur.id)
         {
-            document.getElementById('texte-gagner').style.visibility = 'visible';
+            window.location = "#gagner";
             connexion.envoyerJoueurGagner(joueurGagnant);
         }
     }
@@ -229,7 +240,7 @@
             }
         }
         if (joueur.id == unJoueurMort.id) {
-            document.getElementById('texte-perdu').style.visibility = 'visible';
+            window.location = "#perdu";
         }
     }
 

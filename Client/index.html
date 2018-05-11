@@ -36,12 +36,24 @@
 	<script type=text/plain id ="page-jeu"> 
 		<section id= "section-jeu">
 			<div id="texte-attente"> En attente d'un joueur </div>
-			<div id="texte-perdu" style="visibility:hidden"> T'as perdu ! </div>
-			<div id="texte-gagner" style="visibility:hidden"> T'as gagner ! </div>
 		<canvas id="ctx" width="700" height="700" style="border:1px solid #000000;">
 		</canvas>
 		</section>
 	</script>
+
+
+	<script type=text/plain id ="page-gagner"> 
+		<section id= "section-gagner">
+			<div> BRAVO !!! </div>
+		</section>
+	</script>
+
+	<script type=text/plain id ="page-perdu"> 
+		<section id= "section-perdu">
+			<div> PERDU !!! </div>
+		</section>
+	</script>
+
 
 	<script type=text/plain id ="page-attente">
 		<section id="section-attente">
@@ -58,8 +70,8 @@
 	<script type="text/javascript" src="vue/AccueilVue.js"></script>
 	<script type="text/javascript" src="vue/AttenteJoueurVue.js"></script>
 	<script type="text/javascript" src="vue/JeuVue.js"></script>
-
-
+	<script type="text/javascript" src="vue/GagnerVue.js"></script>
+	<script type="text/javascript" src="vue/PerduVue.js"></script>
 	<script src="ConnexionNode.js"></script>
 	<script src="Joueur.js"></script>
 	<script src="Jeu.js"></script>

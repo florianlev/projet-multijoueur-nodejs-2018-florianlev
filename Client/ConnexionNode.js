@@ -3,7 +3,8 @@ function ConnexionNode(recupererJoueurInitial,
                         gererNouvellesPositions,
                         recevoirDebutDePartie,
                         gererPositionInitiale,
-                        gererMortJoueur
+                        gererMortJoueur,
+                        gererJoueurGagnant
                         ) {
     var connexion;
 
@@ -16,6 +17,7 @@ function ConnexionNode(recupererJoueurInitial,
         connexion.on('partieEstCommencer', gererCommencementPartie);
         connexion.on('positionInitiale', gererPositionInitiale);
         connexion.on('mortDunJoueur', gererMortJoueur);
+        connexion.on('joueurGagnant', gererJoueurGagnant);
         //connexion.on('disconnect', gererDeconnexionJoueur);
     }
 

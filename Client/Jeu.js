@@ -70,7 +70,8 @@
             gererNouvellesPositions,
             recevoirDebutDePartie,
             gererPositionInitiale,
-            gererMortJoueur);
+            gererMortJoueur,
+            gererJoueurGagnant);
     }
 
     function gererPositionInitiale(evenement) {
@@ -156,6 +157,7 @@
 
         if (!listeJoueur.length) {
             canvas = document.getElementById('ctx');
+
             scene = new createjs.Stage(canvas);
             joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
             console.log(scene);
@@ -179,6 +181,12 @@
                 listeJoueur[i].setPositiony(y);
             }
         }
+    }
+
+    function gererJoueurGagnant(evenement)
+    {
+        console.log("GAGNANT");
+        console.log(evenement);
     }
 
     function gererLesTouchesEnfoncee(evenement) {
@@ -213,7 +221,6 @@
         for (ordreJoueurClient in listeJoueur) {
             if (listeJoueur[ordreJoueurClient].id == unJoueurMort.id) {
                 console.log(listeJoueur[ordreJoueurClient].id);
-                console.log("GROSSE PUTE");
             }
         }
         if (joueur.id == unJoueurMort.id) {

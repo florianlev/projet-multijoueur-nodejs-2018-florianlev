@@ -75,8 +75,8 @@ function gererMortDunJoueur(unJoueur) {
     for (idJoueur in listeJoueurRestantDansLaPartie) {
 
         if (listeJoueurRestantDansLaPartie[idJoueur].id == listeJoueur[unJoueur.id].id) {
-            console.log("if(listeJoueurRestantDansLaPartie[idJoueur].id == listeJoueur[unJoueur.id])");
-            console.log(listeJoueurRestantDansLaPartie[idJoueur].id);
+            //console.log("if(listeJoueurRestantDansLaPartie[idJoueur].id == listeJoueur[unJoueur.id])");
+           // console.log(listeJoueurRestantDansLaPartie[idJoueur].id);
             delete listeJoueurRestantDansLaPartie[idJoueur];
         }
 
@@ -90,7 +90,7 @@ function gererMortDunJoueur(unJoueur) {
         }
     }
 
-    console.log(listeJoueurRestantDansLaPartie);
+    //console.log(listeJoueurRestantDansLaPartie);
     listeJoueur[unJoueur.id].etatVieCourant = listeJoueur[unJoueur.id].etatVie.mort;
 
     console.log("joueurRestant : " + joueurRestant);
@@ -117,7 +117,6 @@ function gererDebut(evenement) {
     if (nombreClients >= 2 && evenement) {
         console.log("debut");
         debutPartie = true;
-        //gererDebutDePartie(connexion);
         setVitesseListeJoueur(1);
         partieEstCommencer = true;
         for (var idConnexion in listeConnexion) {
@@ -174,7 +173,6 @@ function mettreAJourPosition() {
     }
     var listeJoueursJson = JSON.stringify(listeJoueurActif);
 
-    //console.log(listeJoueursJson);
     for (var idConnexion in listeConnexion) {
         if (listeConnexion[idConnexion]) {
             listeConnexion[idConnexion].emit('nouvellesPositions', listeJoueursJson);

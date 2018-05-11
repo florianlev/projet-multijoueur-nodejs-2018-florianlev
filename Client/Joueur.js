@@ -78,3 +78,5 @@ function Joueur(scene, joueurInitial)
 
     initialiser();
 }
+
+AccueilVue.pageAccueilHTML = document.getElementById("joueur").innerHTML;

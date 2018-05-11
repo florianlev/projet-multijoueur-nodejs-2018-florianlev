@@ -167,6 +167,7 @@
     function recupererJoueurInitial(listeJoueurServeur) {
 
         if (!listeJoueur.length) {
+
             canvas = document.getElementById('ctx');
 
             scene = new createjs.Stage(canvas);

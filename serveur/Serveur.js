@@ -6,6 +6,7 @@ var nombreClients;
 var listeConnexion = [];
 var listeJoueur = [];
 var listeJoueurRestantDansLaPartie = [];
+var joueurRestant;
 var socket;
 var debutPartie;
 var partieEstCommencer;
@@ -14,6 +15,7 @@ function initialiser() {
     console.log("initialiser()");
     debutPartie = false;
     nombreClients = 0;
+    joueurRestant = 0;
     var server = http.createServer(function (req, res) {
         // Send HTML headers and message
         res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -34,6 +36,7 @@ console.log("Server started");
 function gererConnexion(connexion) {
     nombreClients++;
     connexion.id = nombreClients;
+    joueurRestant++;
     console.log("ID client : " + connexion.id);
 
     listeConnexion[connexion.id] = connexion;
@@ -68,7 +71,7 @@ function gererJoueurGagner(joueurGagnant)
 
 function gererMortDunJoueur(unJoueur) {
     console.log('gererMortDunJoueur()');
-    var joueurRestant = 0;
+    joueurRestant--;
     for (idJoueur in listeJoueurRestantDansLaPartie) {
 
         if (listeJoueurRestantDansLaPartie[idJoueur].id == listeJoueur[unJoueur.id].id) {
@@ -78,8 +81,8 @@ function gererMortDunJoueur(unJoueur) {
         }
 
         if (listeJoueurRestantDansLaPartie[idJoueur]) {
-            joueurRestant++;
             if (joueurRestant == 1) {
+                console.log("JOUEUR RESTANT 1 ");
                 for (var idConnexion in listeConnexion) {
                     listeConnexion[idConnexion].emit('joueurGagnant', listeJoueurRestantDansLaPartie[idJoueur]);
                 }

@@ -23,7 +23,7 @@ function Joueur(scene, joueurInitial)
 
     function initialiser()
     {
-
+        
         etatVieCourant = etatVie.vivant;
         estDessiner = false;
         dessin = new createjs.Shape();
@@ -79,4 +79,4 @@ function Joueur(scene, joueurInitial)
     initialiser();
 }
 
-AccueilVue.pageAccueilHTML = document.getElementById("joueur").innerHTML;
+//AccueilVue.pageAccueilHTML = document.getElementById("joueur").innerHTML;

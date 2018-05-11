@@ -57,6 +57,13 @@ function gererConnexion(connexion) {
     connexion.on('disconnect', gererDeconnexionClient);
     connexion.on('etatConnexion', recevoirEtatConnexion);
     connexion.on('joueurEstPret', gererDebut);
+    connexion.on('joueurGagner', gererJoueurGagner);
+}
+
+function gererJoueurGagner(joueurGagnant)
+{
+    console.log("gererJoueurGagner()");
+    listeJoueur[this.id].maxVitesse = 0;
 }
 
 function gererMortDunJoueur(unJoueur) {

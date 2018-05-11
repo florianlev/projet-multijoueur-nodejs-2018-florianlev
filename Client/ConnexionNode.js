@@ -78,6 +78,11 @@ function ConnexionNode(recupererJoueurInitial,
         connexion.emit('toucheEnfoncee', { directionCourante: direction, etatCourant: etat });
     }
 
+    this.envoyerJoueurGagner = function(joueurGagner)
+    {
+        connexion.emit('joueurGagner', joueurGagner );
+    }
+
 
     initialiser();
 

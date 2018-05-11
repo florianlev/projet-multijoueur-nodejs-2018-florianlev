@@ -183,10 +183,15 @@
         }
     }
 
-    function gererJoueurGagnant(evenement)
+    function gererJoueurGagnant(joueurGagnant)
     {
         console.log("GAGNANT");
-        console.log(evenement);
+        console.log(joueurGagnant.id);
+        if(joueurGagnant.id == joueur.id)
+        {
+            document.getElementById('texte-gagner').style.visibility = 'visible';
+            connexion.envoyerJoueurGagner(joueurGagnant);
+        }
     }
 
     function gererLesTouchesEnfoncee(evenement) {

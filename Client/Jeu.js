@@ -4,6 +4,7 @@
     var connexion;
     var canvas;
     var scene;
+    var sceneSVG;
     var listeJoueur = [];
     var autreJoueur;
     var idCourant;
@@ -154,7 +155,7 @@
             if (!estTrouvee) {
                 console.log(joueurInitialPret);
                 joueurServeur = listeJoueurServeur[ordreJoueurServeur];
-                autreJoueur = new Joueur(scene, joueurServeur);
+                autreJoueur = new Joueur(sceneSVG, scene, joueurServeur);
                 listeJoueur.push(autreJoueur);
                 autreJoueur.afficher();
                 connexion.changerEtatEstCreer(true);
@@ -171,9 +172,11 @@
             canvas = document.getElementById('ctx');
 
             scene = new createjs.Stage(canvas);
+            sceneSVG = SVG('drawing').size(1000, 1000);
+
             joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
             console.log(scene);
-            joueur = new Joueur(scene, joueurInitial);
+            joueur = new Joueur(sceneSVG, scene, joueurInitial);
             joueur.id = joueurInitial.id;
             listeJoueur.push(joueur);
             joueur.afficher();

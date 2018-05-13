@@ -1,10 +1,12 @@
-function Joueur(scene, joueurInitial)
+function Joueur(sceneSVG, scene, joueurInitial)
 {
     joueur = this;
     var dessin;
+    var svg;
     var x;
     var y;
     var score;
+    var rect;
 
     const etatVie = {
         vivant: "vivant",
@@ -27,7 +29,8 @@ function Joueur(scene, joueurInitial)
         etatVieCourant = etatVie.vivant;
         estDessiner = false;
         dessin = new createjs.Shape();
-        
+        rect = sceneSVG.rect(100, 100).attr({ fill: '#f00' });
+        rect.x(100);
 
         //joueur.id = 0;
         //console.log(joueurInitial.id);
@@ -63,11 +66,13 @@ function Joueur(scene, joueurInitial)
 
     this.setPositionx = function(x)
     {
-        dessin.x = x;
+        //dessin.x = x;
+        rect.x(x);
     }
     this.setPositiony = function(y)
     {
-        dessin.y = y;
+        //dessin.y = y;
+        rect.y(y);
     
     }
     this.afficher = function()

@@ -144,7 +144,6 @@ function gererDeconnexionClient(evenement) {
     listeConnexion[this.id].emit('logout', joueurDeconnecter);
     delete listeConnexion[this.id];
     delete listeJoueur[this.id];
-
 }
 
 function gererToucheEnfoncee(evenement) {

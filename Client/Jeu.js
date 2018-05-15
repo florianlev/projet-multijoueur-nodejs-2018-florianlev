@@ -50,6 +50,8 @@
     function initialiser() {
 
         console.log("initialiserClient()");
+        console.log(window.innerHeight);
+        console.log(window.innerWidth);
 
         etatCourantJeu = etatEnJeu.enAttente;
         estDemarer = false;
@@ -172,7 +174,7 @@
             canvas = document.getElementById('ctx');
 
             scene = new createjs.Stage(canvas);
-            sceneSVG = SVG('drawing').size(1000, 1000);
+            sceneSVG = SVG('drawing').size(window.innerWidth, window.innerHeight);
 
             joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
             console.log(scene);
@@ -180,6 +182,11 @@
             joueur.id = joueurInitial.id;
             listeJoueur.push(joueur);
             joueur.afficher();
+            var camera = new Camera(0,0,window.innerWidth,window.innerHeight,300,300);
+            camera.suivreJoueur(joueur,window.innerWidth/2, window.innerHeight/2);
+
+            
+
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
             joueurInitialPret = true;
         }
@@ -215,14 +222,18 @@
             case configuration.droite:
                 connexion.envoyerTouchesEnfoncee('droite', true);
                 toucheDroiteEnfoncee = true;
+                window.scrollX += 5;
                 break;
             case configuration.bas:
                 connexion.envoyerTouchesEnfoncee('bas', true);
                 toucheBasEnfoncee = true;
+                
                 break;
             case configuration.gauche:
                 connexion.envoyerTouchesEnfoncee('gauche', true);
                 toucheGaucheEnfoncee = true;
+                window.scrollX -= 5;
+
                 break;
             case configuration.haut:
                 connexion.envoyerTouchesEnfoncee('haut', true);

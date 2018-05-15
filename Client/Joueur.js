@@ -29,7 +29,7 @@ function Joueur(sceneSVG, scene, joueurInitial)
         etatVieCourant = etatVie.vivant;
         estDessiner = false;
         dessin = new createjs.Shape();
-        rect = sceneSVG.rect(100, 100).attr({ fill: '#f00' });
+        rect = sceneSVG.rect(50, 50).attr({ fill: '#f00' });
         rect.x(100);
 
         //joueur.id = 0;

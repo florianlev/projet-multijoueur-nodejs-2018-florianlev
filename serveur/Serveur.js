@@ -117,7 +117,7 @@ function gererDebut(evenement) {
     if (nombreClients >= 2 && evenement) {
         console.log("debut");
         debutPartie = true;
-        setVitesseListeJoueur(1);
+        setVitesseListeJoueur(0);
         partieEstCommencer = true;
         for (var idConnexion in listeConnexion) {
 
@@ -168,6 +168,7 @@ function mettreAJourPosition() {
             joueur = listeJoueur[idJoueur];
             joueur.mettreAjourPosition();
             listeJoueurActif.push(joueur);
+            
         }
     }
     var listeJoueursJson = JSON.stringify(listeJoueurActif);

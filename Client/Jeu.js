@@ -185,7 +185,11 @@
             var camera = new Camera(0,0,window.innerWidth,window.innerHeight,300,300);
             camera.suivreJoueur(joueur,window.innerWidth/2, window.innerHeight/2);
 
-            
+            setInterval(function(){
+                camera.updateCamera();
+            },1000/30);
+
+
 
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
             joueurInitialPret = true;

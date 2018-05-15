@@ -117,7 +117,7 @@ function gererDebut(evenement) {
     if (nombreClients >= 2 && evenement) {
         console.log("debut");
         debutPartie = true;
-        setVitesseListeJoueur(0);
+        setVitesseListeJoueur(8);
         partieEstCommencer = true;
         for (var idConnexion in listeConnexion) {
 

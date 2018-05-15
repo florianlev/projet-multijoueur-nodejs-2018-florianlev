@@ -7,6 +7,7 @@ function Camera(xVue, yVue, sceneWidth, sceneHeight, mondeWidth, mondeHeight) {
         BOTH: "both"
     }
 
+    camera = this;
     this.xVue;
     this.yVue;
     this.wVue;
@@ -21,29 +22,28 @@ function Camera(xVue, yVue, sceneWidth, sceneHeight, mondeWidth, mondeHeight) {
 
     function initialiser() {
         console.log("initialiserCamera()");
-        this.xVue = xVue || 0;
-        this.yVue = yVue || 0;
+        camera.xVue = xVue || 0;
+        camera.yVue = yVue || 0;
 
-        this.wVue = sceneWidth;
-        this.hVue = sceneHeight;
 
-        this.xZoneDeMort = 0;
-        this.yZoneDeMort = 0;
+        camera.wVue = sceneWidth;
+        camera.hVue = sceneHeight;
 
-        this.axes = AXES.BOTH;
-        console.log(this.axes);
-        this.suivre = null;
+        camera.xZoneDeMort = 0;
+        camera.yZoneDeMort = 0;
 
-        console.log(this.xVue);
-        this.viewportRectangle = new Rectangle(this.xVue, this.yVue, this.wVue, this.hVue);
+        camera.axes = AXES.BOTH;
+        camera.suivre = null;
+
+        camera.viewportRectangle = new Rectangle(camera.xVue, camera.yVue, camera.wVue, camera.hVue);
         
 
-        this.mondeRectangle = new Rectangle(0,0,mondeWidth, mondeHeight);
+        camera.mondeRectangle = new Rectangle(0,0,mondeWidth, mondeHeight);
     }
 
     this.suivreJoueur = function(joueur, xZoneDeMort, yZoneDeMort)
     {
-        console.log(axes);
+        
         this.suivre = joueur;
         this.xZoneDeMort = xZoneDeMort;
         this.yZoneDeMort = yZoneDeMort;
@@ -53,36 +53,45 @@ function Camera(xVue, yVue, sceneWidth, sceneHeight, mondeWidth, mondeHeight) {
     {
         if(this.suivre != null)
         {
-            if(axes == AXES.HORIZONTALE || axes == AXES.BOTH)
+            if(camera.axes == AXES.HORIZONTALE || camera.axes == AXES.BOTH)
             {
-                console.log("test");
-                if(this.suivre.x - this.xVue + this.xZoneDeMort > this.wVue)
-                    this.xVue = this.suivre.x - (this.wVue - this.xZoneDeMort);
-                else if(this.suivre.x - this.xZoneDeMort < this.xVue)
-                    this.xVue = this.suivre.x - this.xZoneDeMort;
+                if(camera.suivre.x - camera.xVue + camera.xZoneDeMort > camera.wVue)
+                {
+                    console.log(camera.xVue);
+
+                    camera.xVue = camera.suivre.x - (camera.wVue - camera.xZoneDeMort);
+                }
+                    
+                else if(camera.suivre.x - camera.xZoneDeMort < camera.xVue)
+                {
+
+
+                    camera.xVue = camera.suivre.x - camera.xZoneDeMort;
+
+                }
             }
-            if(axes == AXES.VERTICALE || axes == AXES.BOTH)
+            if(camera.axes == AXES.VERTICALE || camera.axes == AXES.BOTH)
             {
-                if(this.suivre.y - this.yVue + this.yZoneDeMort > this.hVue)
-                    this.yVue = this.suivre.y - (this.hVue - this.yZoneDeMort);
-                else if(this.suivre.y - this.yZoneDeMort < this.yVue)
-                    this.yVue = this.suivre.y - this.yZoneDeMort;
+                if(camera.suivre.y - camera.yVue + camera.yZoneDeMort > camera.hVue)
+                    camera.yVue = camera.suivre.y - (camera.hVue - camera.yZoneDeMort);
+                else if(camera.suivre.y - camera.yZoneDeMort < camera.yVue)
+                    camera.yVue = camera.suivre.y - camera.yZoneDeMort;
             }
         }
         //console.log(viewportRectangle);
 
-        viewportRectangle.setRectangle(this.xVue,this.yVue);
+        camera.viewportRectangle.setRectangle(camera.xVue,camera.yVue);
 
         /* if(!this.viewportRectangle.withinRectangle(this.mondeRectangle))
         {
             if(this.viewportRectangle.gauche < this.mondeRectangle.gauche)
-                this.xVue = this.mondeRectangle.gauche;
+                camera.xVue = this.mondeRectangle.gauche;
             if(this.viewportRectangle.dessus < this.mondeRectangle.dessus)
-                this.yVue = this.mondeRectangle.dessus;
+                camera.yVue = this.mondeRectangle.dessus;
             if(this.viewportRectangle.droite > this.mondeRectangle.droite)
-                this.xVue = this.mondeRectangle.droite - this.wVue;
+                camera.xVue = this.mondeRectangle.droite - this.wVue;
             if(this.viewportRectangle.dessous > this.mondeRectangle.dessous)
-                this.yVue = this.mondeRectangle.dessous - this.hVue;
+                camera.yVue = this.mondeRectangle.dessous - this.hVue;
 
         } */
     }

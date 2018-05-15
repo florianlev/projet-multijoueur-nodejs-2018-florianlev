@@ -3,8 +3,8 @@ function Joueur(sceneSVG, scene, joueurInitial)
     joueur = this;
     var dessin;
     var svg;
-    var x;
-    var y;
+    this.x;
+    this.y;
     var score;
     var rect;
 
@@ -68,11 +68,13 @@ function Joueur(sceneSVG, scene, joueurInitial)
     {
         //dessin.x = x;
         rect.x(x);
+        this.x = x;
     }
     this.setPositiony = function(y)
     {
         //dessin.y = y;
         rect.y(y);
+        this.y = y;
     
     }
     this.afficher = function()

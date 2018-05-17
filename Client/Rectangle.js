@@ -1,45 +1,48 @@
 function Rectangle(gauche, dessus, width, height) {
+    rectangle = this;
     this.gauche;
     this.dessus;
     this.width;
     this.height;
     this.droite;
     this.dessous;
+    console.log(width);
 
 
     function intialiser()
     {
-        this.gauche = gauche || 0;
-        this.dessus = dessus || 0;
-        this.width = width || 0;
-        this.height = height || 0;
-        this.droite = this.gauche + this.width;
-        this.dessous = this.dessus + this.height;
+        rectangle.gauche = gauche || 0;
+        rectangle.dessus = dessus || 0;
+        rectangle.width = width || 0;
+        rectangle.height = height || 0;
+        rectangle.droite = rectangle.gauche + rectangle.width;
+        rectangle.dessous = rectangle.dessus + rectangle.height;
     }
 
     this.setRectangle = function (gauche, dessus, width, height) {
-        this.gauche = gauche;
-        this.dessus = dessus;
-        this.width = width || this.width;
-        this.height = height || this.height
-        this.droite = (this.gauche + this.width);
-        this.dessous = (this.dessus + this.height);
+        
+        rectangle.gauche = gauche;
+        rectangle.dessus = dessus;
+        rectangle.width = width || rectangle.width;
+        rectangle.height = height || rectangle.height
+        rectangle.droite = (rectangle.gauche + rectangle.width);
+        rectangle.dessous = (rectangle.dessus + rectangle.height);
     }
 
     this.withinRectangle = function(r)
     {
-        return (r.gauche <= this.gauche && 
-            r.droite >= this.droite &&
-            r.dessus <= this.dessus && 
-            r.dessous >= this.dessous);
+        return (r.gauche <= rectangle.gauche && 
+            r.droite >= rectangle.droite &&
+            r.dessus <= rectangle.dessus && 
+            r.dessous >= rectangle.dessous);
     }
 
     this.overlapsRectangle = function(r)
     {
-        return (this.gauche < r.droite && 
-            r.gauche < this.droite && 
-            this.dessus < r.dessous &&
-            r.dessus < this.dessous);
+        return (rectangle.gauche < r.droite && 
+            r.gauche < rectangle.droite && 
+            rectangle.dessus < r.dessous &&
+            r.dessus < rectangle.dessous);
     }
 
     intialiser();

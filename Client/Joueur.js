@@ -30,7 +30,6 @@ function Joueur(sceneSVG, scene, joueurInitial)
         estDessiner = false;
         dessin = new createjs.Shape();
         rect = sceneSVG.rect(50, 50).attr({ fill: '#f00' });
-        rect.x(100);
 
         //joueur.id = 0;
         //console.log(joueurInitial.id);

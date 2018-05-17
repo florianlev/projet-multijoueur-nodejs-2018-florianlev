@@ -8,6 +8,8 @@
     var listeJoueur = [];
     var autreJoueur;
     var idCourant;
+    var terrainJoueur;
+    var terrainPartie;
 
     var estDemarer;
     var joueurInitial;
@@ -16,6 +18,10 @@
     var pretAAfficher;
     var joueurPretACommencer;
     var autreJoueurCourant;
+    const zoneJeu = {
+        width: 10000,
+        height: 10000
+    }
 
     var toucheDroiteEnfoncee;
     var toucheGaucheEnfoncee;
@@ -26,14 +32,14 @@
         droite: "droite",
         bas: "bas",
         gauche: "gauche",
-        droite: "droite"
+        haut: "haut"
     }
     var vueCourante;
 
     const etatEnJeu = {
         enAttente: "enAttente",
         enJeu: "enJeu"
-        
+
     }
 
     var etatCourantJeu;
@@ -50,8 +56,13 @@
     function initialiser() {
 
         console.log("initialiserClient()");
-        console.log(window.innerHeight);
-        console.log(window.innerWidth);
+
+        fenetreWidth = window.innerWidth;
+        fenetreHeight = window.innerHeight;
+        var body = document.getElementsByTagName('body')[0];
+        body.style.width = fenetreWidth + "px";
+        body.style.height = fenetreHeight + "px";
+
 
         etatCourantJeu = etatEnJeu.enAttente;
         estDemarer = false;
@@ -86,7 +97,7 @@
 
     function initialiserJeu() {
         console.log("initialiserJeu()");
-        document.getElementById('texte-attente').style.visibility = 'hidden';
+        document.getElementById('texte-attente').style.display = 'none';
         pretAAfficher = true;
         document.onkeydown = gererLesTouchesEnfoncee;
 
@@ -111,12 +122,10 @@
             }
         }
 
-        else if (intructionNavigation.match(/^#gagner$/))
-        {
+        else if (intructionNavigation.match(/^#gagner$/)) {
             gagnerVue.afficher();
         }
-        else if (intructionNavigation.match(/^#perdu$/))
-        {
+        else if (intructionNavigation.match(/^#perdu$/)) {
             perduVue.afficher();
         }
     }
@@ -157,7 +166,7 @@
             if (!estTrouvee) {
                 console.log(joueurInitialPret);
                 joueurServeur = listeJoueurServeur[ordreJoueurServeur];
-                autreJoueur = new Joueur(sceneSVG, scene, joueurServeur);
+                autreJoueur = new Joueur(terrainJoueur, scene, joueurServeur);
                 listeJoueur.push(autreJoueur);
                 autreJoueur.afficher();
                 connexion.changerEtatEstCreer(true);
@@ -174,20 +183,49 @@
             canvas = document.getElementById('ctx');
 
             scene = new createjs.Stage(canvas);
-            sceneSVG = SVG('drawing').size(window.innerWidth, window.innerHeight);
 
+            //terrainpartie : MAP
+            console.log(fenetreWidth);
+            console.log(fenetreHeight);
+            terrainPartie = SVG('terrainPartie').size(fenetreWidth, fenetreHeight);
+            /*  terrainPartie.x(- (zoneJeu.width /2));
+             terrainPartie.y(- (zoneJeu.height / 2)); */
+            /* terrainPartie.x(fenetreWidth / 2);
+            terrainPartie.y(fenetreHeight / 2); */
+
+            terrainPartieHtml = document.getElementById("terrainPartie");
+            terrainPartieHtml.style.left = 0 + "px";
+
+            terrainPartieHtml.style.top = 0 + "px";
+
+            /*  carreVert = terrainPartie.rect(50,50).attr({fill: '#98FB98'});
+             carreVert.x(fenetreWidth/2);
+             carreVert.y(fenetreHeight/2);  */
+            //terrainJoueur : deplacement du joueurInitial
+
+            terrainJoueur = SVG('terrainJoueur').size(fenetreWidth, fenetreHeight)
+            terrainJoueurHtml = document.getElementById("terrainJoueur");
+            terrainJoueurHtml.style.width = fenetreWidth + "px";
+            terrainJoueurHtml.style.height = fenetreHeight + "px";
+
+            //terrainJoueur = sceneSVG.rect(500,500).attr({ fill: '#ffffff' });
+            //carreVert = terrain.rect(10,10).attr({fill: '#98FB98'});
+
+            terrainJoueur.x(0);
+            terrainJoueur.y(0);
             joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
             console.log(scene);
-            joueur = new Joueur(sceneSVG, scene, joueurInitial);
+            joueur = new Joueur(terrainJoueur, scene, joueurInitial);
             joueur.id = joueurInitial.id;
             listeJoueur.push(joueur);
             joueur.afficher();
-            var camera = new Camera(0,0,window.innerWidth,window.innerHeight,300,300);
-            camera.suivreJoueur(joueur,window.innerWidth/2, window.innerHeight/2);
+            //var camera = new Camera(0,0,fenetreWidth,fenetreHeight,3000,3000);
+            var camera = new Camera(terrainPartieHtml);
+            //camera.suivreJoueur(joueur,fenetreWidth/2, fenetreHeight/2);
 
-            setInterval(function(){
-                camera.updateCamera();
-            },1000/30);
+            setInterval(function () {
+                camera.updateCamera(etatDirectionCourant);
+            }, 1000 / 30);
 
 
 
@@ -209,12 +247,10 @@
         }
     }
 
-    function gererJoueurGagnant(joueurGagnant)
-    {
+    function gererJoueurGagnant(joueurGagnant) {
         console.log("GAGNANT");
         console.log(joueurGagnant.id);
-        if(joueurGagnant.id == joueur.id)
-        {
+        if (joueurGagnant.id == joueur.id) {
             window.location = "#gagner";
             connexion.envoyerJoueurGagner(joueurGagnant);
         }
@@ -224,22 +260,26 @@
 
         switch (evenement.keyCode) {
             case configuration.droite:
+                etatDirectionCourant = etatDirection.droite;
                 connexion.envoyerTouchesEnfoncee('droite', true);
                 toucheDroiteEnfoncee = true;
-                window.scrollX += 5;
+                //window.scrollX += 5;
                 break;
             case configuration.bas:
+                etatDirectionCourant = etatDirection.bas;
                 connexion.envoyerTouchesEnfoncee('bas', true);
                 toucheBasEnfoncee = true;
-                
+
                 break;
             case configuration.gauche:
+                etatDirectionCourant = etatDirection.gauche;
                 connexion.envoyerTouchesEnfoncee('gauche', true);
                 toucheGaucheEnfoncee = true;
                 window.scrollX -= 5;
 
                 break;
             case configuration.haut:
+                etatDirectionCourant = etatDirection.haut;
                 connexion.envoyerTouchesEnfoncee('haut', true);
                 toucheHautEnfoncee = true;
                 break;

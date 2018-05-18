@@ -55,6 +55,7 @@
 
     function initialiser() {
 
+        window.scroll(0,0);
         console.log("initialiserClient()");
         console.log(window.innerHeight);
         console.log(window.innerWidth);
@@ -126,6 +127,8 @@
         else if (intructionNavigation.match(/^#perdu$/))
         {
             perduVue.afficher();
+            window.scroll(0,0);
+
         }
     }
 

@@ -32,10 +32,10 @@ function Joueur(nouveauId) {
 
         joueur.etatVieCourant = joueur.etatVie.vivant;
 
-        /* joueur.x = entierAleatoire(0,700);
-        joueur.y = entierAleatoire(0,700); */
-        joueur.x = 50;
-        joueur.y = 50;
+        joueur.x = entierAleatoire(0,700);
+        joueur.y = entierAleatoire(0,700); 
+        /* joueur.x = 50;
+        joueur.y = 50; */
         joueur.etatDirectionCourant = etatDirection.bas;
         joueur.maxVitesse = 0;
         joueur.id = nouveauId;

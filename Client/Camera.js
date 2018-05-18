@@ -1,71 +1,61 @@
-function Camera(terrainPartieHtml) {
+function Camera(joueur, xZoneDeMort, yZoneDeMort, zoneJeu, sortieZone) {
+    console.log(window.scrollX);
 
-    const vitesse = 1;
+    camera = this;
+    var x;
+    var y;
+    this.estMort;
 
-    function initialiser()
-    {
+
+    function initialiser() {
+        console.log("initialiserCamera()");
+        x = 0;
+        y = 0;
+        camera.estMort = false;
 
     }
-    
-    this.updateCamera = function(etatDirectionCourant)
+    this.updateCamera = function()
     {
-
-        if(etatDirectionCourant == "droite")
+        if(!camera.estMort)
         {
-            positionGauche = getPositionGauche();
-            positionGauche -= vitesse;
-            setPositionGauche(positionGauche);
-
+            if(joueur.x - window.scrollX + xZoneDeMort > window.innerWidth)
+            {
+                x =  joueur.x - (window.innerWidth - xZoneDeMort);
+                window.scroll(x,y);
+            }
+    
+            else if(joueur.x - xZoneDeMort < window.scrollX)
+            {
+                x =  joueur.x - xZoneDeMort;
+                window.scroll(x,y);
+            }
+    
+    
+            if(joueur.y - window.scrollY + yZoneDeMort > window.innerHeight)
+            {
+                y = joueur.y - (window.innerHeight - yZoneDeMort);
+                window.scroll(x,y);
+            }
+            else if (joueur.y - yZoneDeMort < window.scrollY)
+            {
+                y = joueur.y - yZoneDeMort;
+                window.scroll(x,y);
+            }
+    
+            if(joueur.x >= zoneJeu.width - 50 || joueur.x < 0)
+            {
+                console.log("MORT");
+                sortieZone(joueur);
+            }
+            else if(joueur.y >= zoneJeu.height - 50 || joueur.y < 0)
+            {
+                console.log("MORT");
+                sortieZone(joueur);
+            }
         }
-            
-        if(etatDirectionCourant == "gauche")
-        {
-            positionGauche = getPositionGauche();
-            positionGauche += vitesse;
-            setPositionGauche(positionGauche);
-        }
-
-        if(etatDirectionCourant == "haut")
-        {
-            positionHaut = getPositionHaut();
-            positionHaut += vitesse;
-            setPositionHaut(positionHaut);
-        }
-        if(etatDirectionCourant == "bas")
-        {
-            positionHaut = getPositionHaut();
-            positionHaut -= vitesse;
-            setPositionHaut(positionHaut);
-            
-        }
+        
         
     }
 
-    function getPositionGauche()
-    {
-        positionGauche = terrainPartieHtml.style.left.replace('px', '');
-        positionGauche = parseFloat(positionGauche);
-        return positionGauche;
-
-    }
-
-    function getPositionHaut()
-    {
-        positionHaut = terrainPartieHtml.style.top.replace('px', '');
-        positionHaut = parseFloat(positionHaut);
-        return positionHaut;
-
-
-    }
-
-    function setPositionGauche(positionGauche){
-        terrainPartieHtml.style.left = positionGauche + "px";
-    }
-
-    function setPositionHaut(positionHaut)
-    {
-        terrainPartieHtml.style.top = positionHaut + "px";
-        console.log(terrainPartieHtml.style.top);
-
-    }
+    initialiser();
 }

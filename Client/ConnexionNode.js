@@ -52,6 +52,11 @@ function ConnexionNode(recupererJoueurInitial,
 
     }
 
+    this.sortieZone = function(unJoueur)
+    {
+        connexion.emit('sortieZone', unJoueur);
+    }
+
     this.joueurMort = function(unJoueur)
     {
         connexion.emit('joueurMort', unJoueur);

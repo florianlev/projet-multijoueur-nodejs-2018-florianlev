@@ -11,6 +11,7 @@ function Joueur(nouveauId) {
     this.estCreer;
     this.etatDirectionCourant;
     this.score;
+    this.couleur;
 
     const etatDirection = {
         droite : "droite",
@@ -29,6 +30,9 @@ function Joueur(nouveauId) {
 
     function initialiser(){
         console.log("initialiserJoueur");
+        // genererCouleur
+        joueur.couleur = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+
 
         joueur.etatVieCourant = joueur.etatVie.vivant;
 

@@ -1,6 +1,7 @@
 var http = require('http');
 var io = require('socket.io');
 Joueur = require('./Joueur.js');
+Grille = require('./Grille.js');
 
 var nombreClients;
 var listeConnexion = [];
@@ -27,6 +28,8 @@ function initialiser() {
     var socket = io.listen(server);
     socket.on('connection', gererConnexion);
     setInterval(mettreAJourPosition, 1000 / 25);
+
+    var grille = new Grille();
 
 }
 

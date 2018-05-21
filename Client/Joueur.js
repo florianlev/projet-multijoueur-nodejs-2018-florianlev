@@ -8,6 +8,7 @@ function Joueur(sceneSVG, scene, joueurInitial)
     this.y;
     var score;
     var rect;
+    this.couleur;
 
     const etatVie = {
         vivant: "vivant",
@@ -26,11 +27,14 @@ function Joueur(sceneSVG, scene, joueurInitial)
 
     function initialiser()
     {
-        
+        //recuperer Couleur
+
+        joueur.couleur = joueurInitial.couleur;
+        console.log(joueur.couleur);
         etatVieCourant = etatVie.vivant;
         estDessiner = false;
         dessin = new createjs.Shape();
-        rect = sceneSVG.rect(50, 50).attr({ fill: '#f00' });
+        rect = sceneSVG.rect(50, 50).attr({ fill: joueur.couleur });
         rect.x(100);
 
         //joueur.id = 0;

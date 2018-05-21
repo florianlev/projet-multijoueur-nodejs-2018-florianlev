@@ -24,6 +24,11 @@
     var toucheHautEnfoncee;
     var toucheBasEnfoncee;
 
+    var tailleCase = {
+        caseW : 50,
+        caseH : 50
+    }
+
     const etatDirection = {
         droite: "droite",
         bas: "bas",
@@ -187,9 +192,6 @@
             scene = new createjs.Stage(canvas);
             viewPort = SVG('viewPort').size(window.innerWidth, window.innerHeight);
 
-            //window.scroll(5000,0);
-            //console.log(window.scrollX);
-
             zoneJeu = SVG('zoneJeu').size(tailleZoneJeu.width, tailleZoneJeu.height);
             zoneJeu.x(0);
             zoneJeu.y(0);
@@ -198,7 +200,6 @@
             zone.x(0);
             zone.y(0);
 
-        
             joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
             console.log(scene);
             joueur = new Joueur(zoneJeu, scene, joueurInitial);
@@ -206,13 +207,6 @@
             listeJoueur.push(joueur);
             joueur.afficher();
             var camera = new Camera(joueur,window.innerWidth/2, window.innerHeight/2, tailleZoneJeu,sortieZone);
-            //camera.suivreJoueur(joueur,window.innerWidth/2, window.innerHeight/2);
-
-            /* setInterval(function(){
-                camera.updateCamera();
-            },1000/30); */
-
-
 
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
             joueurInitialPret = true;

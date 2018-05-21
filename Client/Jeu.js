@@ -25,8 +25,8 @@
     var toucheBasEnfoncee;
 
     var tailleCase = {
-        caseW : 50,
-        caseH : 50
+        caseW: 50,
+        caseH: 50
     }
 
     const etatDirection = {
@@ -44,7 +44,7 @@
 
     var tailleZoneJeu = {
         width: 5000,
-        height: 5000   ,
+        height: 5000,
     }
 
     var etatCourantJeu;
@@ -60,7 +60,7 @@
 
     function initialiser() {
 
-        window.scroll(0,0);
+        window.scroll(0, 0);
         console.log("initialiserClient()");
         console.log(window.innerHeight);
         console.log(window.innerWidth);
@@ -100,8 +100,21 @@
         console.log("initialiserJeu()");
         document.getElementById('texte-attente').style.visibility = 'hidden';
         pretAAfficher = true;
-        document.onkeydown = gererLesTouchesEnfoncee;
+        document.onkeydown = gererLesTouchesEnfoncee
+    }
 
+    function initialiserLaScene() {
+        // SCENE DU JEU
+        zoneJeu = SVG('zoneJeu').size(tailleZoneJeu.width, tailleZoneJeu.height);
+        zoneJeu.x(0);
+        zoneJeu.y(0);
+
+        //rectangle delimitant la zone de jeu
+        zone = zoneJeu.rect(tailleZoneJeu.width, tailleZoneJeu.height).attr({ stroke: '#000000', 'stroke-width': 5, fill: 'none' });
+        zone.x(0);
+        zone.y(0);
+
+        
     }
 
     function interpreterEvenementLocation(evenement) {
@@ -123,16 +136,14 @@
             }
         }
 
-        else if (intructionNavigation.match(/^#gagner$/))
-        {
+        else if (intructionNavigation.match(/^#gagner$/)) {
             gagnerVue.afficher();
-            window.scroll(0,0);
+            window.scroll(0, 0);
 
         }
-        else if (intructionNavigation.match(/^#perdu$/))
-        {
+        else if (intructionNavigation.match(/^#perdu$/)) {
             perduVue.afficher();
-            window.scroll(0,0);
+            window.scroll(0, 0);
 
         }
     }
@@ -190,33 +201,24 @@
             canvas = document.getElementById('ctx');
 
             scene = new createjs.Stage(canvas);
-            viewPort = SVG('viewPort').size(window.innerWidth, window.innerHeight);
-
-            zoneJeu = SVG('zoneJeu').size(tailleZoneJeu.width, tailleZoneJeu.height);
-            zoneJeu.x(0);
-            zoneJeu.y(0);
-            zone = zoneJeu.rect(tailleZoneJeu.width,tailleZoneJeu.height).attr({ stroke : '#000000', 'stroke-width' : 5, fill: 'none'});
             
-            zone.x(0);
-            zone.y(0);
-
+            initialiserLaScene();
             joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
             console.log(scene);
             joueur = new Joueur(zoneJeu, scene, joueurInitial);
             joueur.id = joueurInitial.id;
             listeJoueur.push(joueur);
             joueur.afficher();
-            var camera = new Camera(joueur,window.innerWidth/2, window.innerHeight/2, tailleZoneJeu,sortieZone);
+            var camera = new Camera(joueur, window.innerWidth / 2, window.innerHeight / 2, tailleZoneJeu, sortieZone);
 
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
             joueurInitialPret = true;
         }
     }
 
-    function sortieZone(joueur)
-    {
-        window.scroll(0,0);
-        
+    function sortieZone(joueur) {
+        window.scroll(0, 0);
+
         connexion.sortieZone(joueur);
         camera.estMort = true;
         window.location = "#perdu";
@@ -238,15 +240,13 @@
         }
     }
 
-    function gererJoueurGagnant(joueurGagnant)
-    {
+    function gererJoueurGagnant(joueurGagnant) {
         console.log("GAGNANT");
         console.log(joueurGagnant.id);
-        if(joueurGagnant.id == joueur.id)
-        {
+        if (joueurGagnant.id == joueur.id) {
             window.location = "#gagner";
             connexion.envoyerJoueurGagner(joueurGagnant);
-            window.scroll(0,0);
+            window.scroll(0, 0);
         }
     }
 
@@ -261,7 +261,7 @@
             case configuration.bas:
                 connexion.envoyerTouchesEnfoncee('bas', true);
                 toucheBasEnfoncee = true;
-                
+
                 break;
             case configuration.gauche:
                 connexion.envoyerTouchesEnfoncee('gauche', true);
@@ -290,7 +290,7 @@
         }
         if (joueur.id == unJoueurMort.id) {
             window.location = "#perdu";
-            window.scroll(0,0);
+            window.scroll(0, 0);
 
         }
     }

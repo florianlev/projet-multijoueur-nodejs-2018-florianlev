@@ -22,7 +22,6 @@ function Joueur(sceneSVG, scene, joueurInitial)
     this.id;
     var estDessiner;
 
-    //console.log(joueurInitial["id"]);
 
 
     function initialiser()

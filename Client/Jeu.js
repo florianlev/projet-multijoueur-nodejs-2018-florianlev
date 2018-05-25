@@ -254,9 +254,9 @@
 
         switch (evenement.keyCode) {
             case configuration.droite:
+                console.log("test");
                 connexion.envoyerTouchesEnfoncee('droite', true);
                 toucheDroiteEnfoncee = true;
-                window.scrollX += 5;
                 break;
             case configuration.bas:
                 connexion.envoyerTouchesEnfoncee('bas', true);

@@ -20,9 +20,12 @@
   },
   "homepage": "https://github.com/cegepmatane/projet-multijoueur-nodejs-2018-florianlev#readme",
   "dependencies": {
+    "@tweenjs/tween.js": "^17.2.0",
+    "es6-tween": "^5.2.2",
     "express": "^4.16.3",
     "socket.io": "^2.1.0",
     "svg.js": "^2.6.4",
+    "tween": "^0.9.0",
     "websocket": "^1.0.25"
   }
 }

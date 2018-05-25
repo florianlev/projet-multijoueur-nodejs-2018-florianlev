@@ -2,6 +2,10 @@ var http = require('http');
 var io = require('socket.io');
 Joueur = require('./Joueur.js');
 Grille = require('./Grille.js');
+Case = require('./Case.js')
+//var TWEEN = require('@tweenjs/tween.js');
+const { Tween, Easing, autoPlay } = require('es6-tween');
+
 
 var nombreClients;
 var listeConnexion = [];
@@ -11,8 +15,11 @@ var joueurRestant;
 var socket;
 var debutPartie;
 var partieEstCommencer;
+var tween;
 
 function initialiser() {
+
+    console.log(Date.now());
     console.log("initialiser()");
     debutPartie = false;
     nombreClients = 0;
@@ -27,7 +34,7 @@ function initialiser() {
 
     var socket = io.listen(server);
     socket.on('connection', gererConnexion);
-    setInterval(mettreAJourPosition, 1000 / 25);
+    //setInterval(mettreAJourPosition, 1000 / 60);
 
     var grille = new Grille();
 
@@ -65,16 +72,15 @@ function gererConnexion(connexion) {
     connexion.on('joueurEstPret', gererDebut);
     connexion.on('joueurGagner', gererJoueurGagner);
     connexion.on('sortieZone', gererSortieZoneJoueur);
+
 }
 
-function gererJoueurGagner(joueurGagnant)
-{
+function gererJoueurGagner(joueurGagnant) {
     console.log("gererJoueurGagner()");
     listeJoueur[this.id].maxVitesse = 0;
 }
 
-function gererSortieZoneJoueur(unJoueur)
-{
+function gererSortieZoneJoueur(unJoueur) {
     console.log("gererSortieZoneJoueur");
     joueurRestant--;
     delete listeJoueurRestantDansLaPartie[this.id];
@@ -108,7 +114,7 @@ function gererMortDunJoueur(unJoueur) {
 
         if (listeJoueurRestantDansLaPartie[idJoueur].id == listeJoueur[unJoueur.id].id) {
             //console.log("if(listeJoueurRestantDansLaPartie[idJoueur].id == listeJoueur[unJoueur.id])");
-           // console.log(listeJoueurRestantDansLaPartie[idJoueur].id);
+            // console.log(listeJoueurRestantDansLaPartie[idJoueur].id);
             delete listeJoueurRestantDansLaPartie[idJoueur];
         }
 
@@ -181,8 +187,53 @@ function gererDeconnexionClient(evenement) {
 function gererToucheEnfoncee(evenement) {
 
     listeJoueur[this.id].etatDirectionCourant = evenement.directionCourante;
+    transmettreNouvelleCase(listeJoueur[this.id]);
 
 }
+
+function transmettreNouvelleCase(unJoueur) {
+    caseAEnvoyer = grille.determinerCasesSuivante(unJoueur.coordonneesCaseCourante, unJoueur.etatDirectionCourant);
+
+    if (caseAEnvoyer) {
+        evaluerEntreeCase(caseAEnvoyer, unJoueur);
+        var caseAEnvoyerJSON = JSON.stringify(caseAEnvoyer);
+        for (var idConnexion in listeConnexion) {
+            if (listeConnexion[idConnexion]) {
+                listeConnexion[idConnexion].emit('joueurCaseActuel', caseAEnvoyerJSON);
+            }
+        }
+    }
+    else console.log("TODO MORT");
+}
+
+
+function evaluerEntreeCase(uneCase, unJoueur) {
+    if (uneCase.possesionIdJoueur) {
+        if (uneCase.possesionIdJoueur == unJoueur.id) {//TODO Valider fermeture joueur MORT
+        }
+        else if (recupererCasePresenceJoueur(uneCase.possesionIdJoueur, uneCase.id)) { // Case destination habité par joueur ennemi proprietaire
+            // TODO MORT Valider fermeture joueur
+        }
+        else {
+            // Appartient au joueur actif, peut casser chemin ennemi ou frapper le joueur adversaire sur territoir
+
+        }
+    }
+
+}
+
+function recupererCasePresenceJoueur(idJoueur, idCase) {
+    for (indiceJoueur in listeJoueur) {
+        if (listeJoueur[indiceJoueur].id == idJoueur) {
+            if (listeJoueur[indiceJoueur].caseIdCourant == idCase) {
+                return listeJoueur[indiceJoueur].caseIdCourant;
+            }
+        }
+    }
+}
+
+
+
 function recupererListeJoueurJSON() {
     var listeJoueurActif = [];
     for (var idJoueur in listeJoueur) {
@@ -200,7 +251,7 @@ function mettreAJourPosition() {
             joueur = listeJoueur[idJoueur];
             joueur.mettreAjourPosition();
             listeJoueurActif.push(joueur);
-            
+
         }
     }
     var listeJoueursJson = JSON.stringify(listeJoueurActif);
@@ -211,5 +262,6 @@ function mettreAJourPosition() {
         }
     }
 }
+
 
 initialiser();

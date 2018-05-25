@@ -73,6 +73,7 @@ function Joueur(sceneSVG, scene, joueurInitial)
         //dessin.x = x;
         rect.x(x);
         this.x = x;
+
     }
     this.setPositiony = function(y)
     {

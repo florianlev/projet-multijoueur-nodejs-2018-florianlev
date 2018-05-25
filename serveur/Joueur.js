@@ -1,4 +1,5 @@
 function Joueur(nouveauId) {
+
     joueur = this;
     this.id;
     this.x;
@@ -12,12 +13,20 @@ function Joueur(nouveauId) {
     this.etatDirectionCourant;
     this.score;
     this.couleur;
+    this.enDeplacement;
 
+    this.coordonneesCaseCourante = {
+        indiceLigne : 0,
+        indiceColonne : 0
+    }
+    
+    this.caseIdCourant;
+    
     const etatDirection = {
-        droite : "droite",
-        gauche : "gauche",
-        haut : "haut",
-        bas : "bas"
+        droite: "droite",
+        gauche: "gauche",
+        haut: "haut",
+        bas: "bas"
     }
 
     this.etatVie = {
@@ -28,42 +37,75 @@ function Joueur(nouveauId) {
     this.etatVieCourant;
 
 
-    function initialiser(){
+    function initialiser() {
         console.log("initialiserJoueur");
-        // genererCouleur
-        joueur.couleur = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 
-
+        joueur.retourPos = false;
+        joueur.posChanger = false;
         joueur.etatVieCourant = joueur.etatVie.vivant;
 
-        joueur.x = entierAleatoire(0,700);
-        joueur.y = entierAleatoire(0,700); 
-        /* joueur.x = 50;
-        joueur.y = 50; */
-        joueur.etatDirectionCourant = etatDirection.bas;
+        /* joueur.x = entierAleatoire(0,700);
+        joueur.y = entierAleatoire(0,700); */
+        joueur.enDeplacement = false;
+        joueur.x = 250;
+        joueur.y = 0;
+
+
+        joueur.etatDirectionCourant = etatDirection.gauche;
         joueur.maxVitesse = 0;
         joueur.id = nouveauId;
         joueur.estCreer = false;
+        // genererCouleur
+        joueur.couleur = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+
     }
 
-    this.setVitesse = function(vitesse)
-    {
+
+
+    this.setVitesse = function (vitesse) {
         joueur.maxVitesse = vitesse;
     }
 
     this.mettreAjourPosition = function () {
-        if (etatDirection.droite == joueur.etatDirectionCourant ) joueur.x += joueur.maxVitesse;
-        if (etatDirection.gauche == joueur.etatDirectionCourant)  joueur.x -= joueur.maxVitesse;
-        if (etatDirection.haut == joueur.etatDirectionCourant) joueur.y -= joueur.maxVitesse;
-        if (etatDirection.bas == joueur.etatDirectionCourant) joueur.y += joueur.maxVitesse;
+        //console.log(joueur.positionDepartX);
+        /* console.log("joueurPosition " + joueur.x);
+        console.log("PositionDepart " + joueur.positionDepartX); */
+        console.log("joueur.positionDepartY " + joueur.positionDepartY);
+        console.log("joueur.y " + joueur.y);
+        console.log("joueur.positionDepartX " + joueur.positionDepartX);
+        console.log("joueur.x " + joueur.x);
+
+         /* if (etatDirection.droite == joueur.etatDirectionCourant) 
+         {
+ 
+         }joueur.x += joueur.maxVitesse;
+         if (etatDirection.gauche == joueur.etatDirectionCourant) joueur.x -= joueur.maxVitesse;
+         if (etatDirection.haut == joueur.etatDirectionCourant) joueur.y -= joueur.maxVitesse;
+         if (etatDirection.bas == joueur.etatDirectionCourant) joueur.y += joueur.maxVitesse; 
+     */
+
     }
 
-    function entierAleatoire(min, max)
-    {
+    function updatePosition() {
+        tween.update();
+        //console.log(joueur.x);
+    }
+
+    function entierAleatoire(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     initialiser();
 
+}
+
+function debug(message, cat) {
+    switch (cat) {
+
+        case "a":
+            console.log(message + "salut");
+        default:
+            console.log(message);
+    }
 }
 module.exports = Joueur;

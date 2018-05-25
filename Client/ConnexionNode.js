@@ -18,6 +18,7 @@ function ConnexionNode(recupererJoueurInitial,
         connexion.on('positionInitiale', gererPositionInitiale);
         connexion.on('mortDunJoueur', gererMortJoueur);
         connexion.on('joueurGagnant', gererJoueurGagnant);
+        connexion.on('joueurCaseActuel', gererDeplacementCase);
         //connexion.on('disconnect', gererDeconnexionJoueur);
     }
 
@@ -42,6 +43,12 @@ function ConnexionNode(recupererJoueurInitial,
             id = listeJoueurServeur[i].id;
             gererNouvellesPositions(x,y,id);
         }
+    }
+
+    function gererDeplacementCase(uneCaseJSON)
+    {
+        uneCase = JSON.parse(uneCaseJSON);
+        
     }
 
     function gererConnexionJoueur(evenement) {

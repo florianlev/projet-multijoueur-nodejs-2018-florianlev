@@ -18,40 +18,40 @@ function Camera(joueur, xZoneDeMort, yZoneDeMort, zoneJeu, sortieZone) {
     {
         if(!camera.estMort)
         {
-            if(joueur.x - window.scrollX + xZoneDeMort > window.innerWidth)
+            if(joueur.coords.x - window.scrollX + xZoneDeMort > window.innerWidth)
             {
-                x =  joueur.x - (window.innerWidth - xZoneDeMort);
+                x =  joueur.coords.x - (window.innerWidth - xZoneDeMort);
                 window.scroll(x,y);
             }
     
-            else if(joueur.x - xZoneDeMort < window.scrollX)
+            else if(joueur.coords.x - xZoneDeMort < window.scrollX)
             {
                 x =  joueur.x - xZoneDeMort;
                 window.scroll(x,y);
             }
     
     
-            if(joueur.y - window.scrollY + yZoneDeMort > window.innerHeight)
+            if(joueur.coords.y - window.scrollY + yZoneDeMort > window.innerHeight)
             {
                 y = joueur.y - (window.innerHeight - yZoneDeMort);
                 window.scroll(x,y);
             }
-            else if (joueur.y - yZoneDeMort < window.scrollY)
+            else if (joueur.coords.y - yZoneDeMort < window.scrollY)
             {
                 y = joueur.y - yZoneDeMort;
                 window.scroll(x,y);
             }
     
-            if(joueur.x >= zoneJeu.width - 50 || joueur.x < 0)
+            /* if(joueur.coords.x >= zoneJeu.width - 50 || joueur.coords.x < 0)
             {
                 console.log("MORT");
                 sortieZone(joueur);
             }
-            else if(joueur.y >= zoneJeu.height - 50 || joueur.y < 0)
+            else if(joueur.coords.y >= zoneJeu.height - 50 || joueur.coords.y < 0)
             {
                 console.log("MORT");
                 sortieZone(joueur);
-            }
+            } */
         }
         
         

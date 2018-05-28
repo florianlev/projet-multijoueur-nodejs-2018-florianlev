@@ -1,20 +1,27 @@
 
-function Joueur(sceneSVG, scene, joueurInitial)
-{
+function Joueur(sceneSVG, scene, joueurInitial, envoyerArriverDestination) {
     joueur = this;
     var dessin;
     var svg;
     this.x;
     this.y;
+    this.coords = {
+        x: 0,
+        y: 0
+    };
     var score;
     var rect;
     this.couleur;
+    this.idCaseCourante;
+    var enTween;
+    var tween;
+    var enDeplacement;
 
     const etatVie = {
         vivant: "vivant",
         mort: "mort"
     }
-    
+
     var etatVieCourant;
 
     const d = 100;
@@ -24,10 +31,11 @@ function Joueur(sceneSVG, scene, joueurInitial)
 
 
 
-    function initialiser()
-    {
+    function initialiser() {
         //recuperer Couleur
-
+        joueur.x = 0;
+        joueur.y = 0;
+        enDeplacement = false;
         joueur.couleur = joueurInitial.couleur;
         console.log(joueur.couleur);
         etatVieCourant = etatVie.vivant;
@@ -41,18 +49,41 @@ function Joueur(sceneSVG, scene, joueurInitial)
         joueur.id = joueurInitial.id;
         dessinerJoueur();
         this.estCreer = false;
+
     }
 
-    this.setScene = function(uneScene)
-    {
+    this.setScene = function (uneScene) {
         scene = uneScene;
     }
 
+    this.deplacerJoueur = function (uneCaseDestination, unJoueur) {
 
-    this.rectangleJoueur = function()
-    {
-        if(estDessiner)
-        {
+        if (!enDeplacement) {
+            enDeplacement = true;
+            tween = new TWEEN.Tween(joueur.coords)
+                .to({ x: uneCaseDestination.x, y: uneCaseDestination.y }, 1000)
+                .onUpdate(function () {
+
+                    rect.x(joueur.coords.x);
+                    rect.y(joueur.coords.y);
+                })
+                .start()
+                .onComplete(function () {
+                    enDeplacement = false;
+                    if(unJoueur != joueur.id){envoyerArriverDestination();}
+                });
+            requestAnimationFrame(animate);
+        }
+    }
+
+    function animate(time) {
+        requestAnimationFrame(animate);
+        TWEEN.update(time);
+    }
+
+
+    this.rectangleJoueur = function () {
+        if (estDessiner) {
             dessin.setBounds(dessin.x, dessin.y, 30, 30);
             dessinGetBound = dessin.getBounds();
             return dessinGetBound;
@@ -60,32 +91,28 @@ function Joueur(sceneSVG, scene, joueurInitial)
         }
     }
 
-    function dessinerJoueur()
-    {
+    function dessinerJoueur() {
         estDessiner = true;
         dessin.graphics.beginFill("#ff0000").drawRect(0, 0, 30, 30);
-        
+
         //console.log(dessin.getBounds());
     }
 
-    this.setPositionx = function(x)
-    {
+    this.setPositionx = function (x) {
         //dessin.x = x;
         rect.x(x);
         this.x = x;
 
     }
-    this.setPositiony = function(y)
-    {
+    this.setPositiony = function (y) {
         //dessin.y = y;
         rect.y(y);
         this.y = y;
-    
+
     }
-    this.afficher = function()
-    {
+    this.afficher = function () {
         scene.addChild(dessin);
-    
+
     }
 
     initialiser();

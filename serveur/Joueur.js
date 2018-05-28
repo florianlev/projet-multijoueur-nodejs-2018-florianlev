@@ -19,7 +19,7 @@ function Joueur(nouveauId) {
         indiceLigne : 0,
         indiceColonne : 0
     }
-    
+
     this.caseIdCourant;
     
     const etatDirection = {
@@ -47,7 +47,7 @@ function Joueur(nouveauId) {
         /* joueur.x = entierAleatoire(0,700);
         joueur.y = entierAleatoire(0,700); */
         joueur.enDeplacement = false;
-        joueur.x = 250;
+        joueur.x = 0;
         joueur.y = 0;
 
 

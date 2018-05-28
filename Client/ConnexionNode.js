@@ -4,7 +4,8 @@ function ConnexionNode(recupererJoueurInitial,
                         recevoirDebutDePartie,
                         gererPositionInitiale,
                         gererMortJoueur,
-                        gererJoueurGagnant
+                        gererJoueurGagnant,
+                        gererLesNouvellesPositions
                         ) {
     var connexion;
 
@@ -45,10 +46,11 @@ function ConnexionNode(recupererJoueurInitial,
         }
     }
 
-    function gererDeplacementCase(uneCaseJSON)
+    function gererDeplacementCase(evenement)
     {
-        uneCase = JSON.parse(uneCaseJSON);
-        
+        uneCaseDestination = JSON.parse(evenement.caseEnvoyer);
+        unJoueur = JSON.parse(evenement.joueur);
+        gererLesNouvellesPositions(uneCaseDestination,unJoueur);
     }
 
     function gererConnexionJoueur(evenement) {
@@ -93,6 +95,11 @@ function ConnexionNode(recupererJoueurInitial,
     this.envoyerJoueurGagner = function(joueurGagner)
     {
         connexion.emit('joueurGagner', joueurGagner );
+    }
+
+    this.envoyerArriverDestination = function()
+    {
+        connexion.emit('envoyerArriverDestination', true);
     }
 
 

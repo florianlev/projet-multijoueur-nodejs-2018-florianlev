@@ -88,7 +88,8 @@
             recevoirDebutDePartie,
             gererPositionInitiale,
             gererMortJoueur,
-            gererJoueurGagnant);
+            gererJoueurGagnant,
+            gererLesNouvellesPositions);
     }
 
     function gererPositionInitiale(evenement) {
@@ -113,8 +114,8 @@
         zone = zoneJeu.rect(tailleZoneJeu.width, tailleZoneJeu.height).attr({ stroke: '#000000', 'stroke-width': 5, fill: 'none' });
         zone.x(0);
         zone.y(0);
+        setInterval(transfererEtatPosition, 1000);
 
-        
     }
 
     function interpreterEvenementLocation(evenement) {
@@ -184,7 +185,7 @@
             if (!estTrouvee) {
                 console.log(joueurInitialPret);
                 joueurServeur = listeJoueurServeur[ordreJoueurServeur];
-                autreJoueur = new Joueur(zoneJeu, scene, joueurServeur);
+                autreJoueur = new Joueur(zoneJeu, scene, joueurServeur,envoyerArriverDestination);
                 listeJoueur.push(autreJoueur);
                 autreJoueur.afficher();
                 connexion.changerEtatEstCreer(true);
@@ -201,11 +202,10 @@
             canvas = document.getElementById('ctx');
 
             scene = new createjs.Stage(canvas);
-            
+
             initialiserLaScene();
             joueurInitial = listeJoueurServeur[listeJoueurServeur.length - 1];
-            console.log(scene);
-            joueur = new Joueur(zoneJeu, scene, joueurInitial);
+            joueur = new Joueur(zoneJeu, scene, joueurInitial, envoyerArriverDestination);
             joueur.id = joueurInitial.id;
             listeJoueur.push(joueur);
             joueur.afficher();
@@ -214,6 +214,10 @@
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
             joueurInitialPret = true;
         }
+    }
+
+    function envoyerArriverDestination() {
+        connexion.envoyerArriverDestination();
     }
 
     function sortieZone(joueur) {
@@ -240,6 +244,18 @@
         }
     }
 
+    function gererLesNouvellesPositions(uneCaseDestination, unJoueur) {
+        for (var i = 0; i < listeJoueur.length; i++) {
+            if (unJoueur.id == listeJoueur[i].id) {
+                console.log("TEST" + unJoueur.id);
+                listeJoueur[i].idCaseCourante = uneCaseDestination.id;
+                //console.log(uneCaseDestination.x);
+                listeJoueur[i].deplacerJoueur(uneCaseDestination, unJoueur.id);
+
+            }
+        }
+    }
+
     function gererJoueurGagnant(joueurGagnant) {
         console.log("GAGNANT");
         console.log(joueurGagnant.id);
@@ -254,30 +270,40 @@
 
         switch (evenement.keyCode) {
             case configuration.droite:
-                console.log("test");
-                connexion.envoyerTouchesEnfoncee('droite', true);
-                toucheDroiteEnfoncee = true;
+                if (etatDirectionCourant != etatDirection.droite) {
+                    console.log(etatDirectionCourant);
+                    connexion.envoyerTouchesEnfoncee('droite', true);
+                }
+                etatDirectionCourant = etatDirection.droite;
                 break;
             case configuration.bas:
-                connexion.envoyerTouchesEnfoncee('bas', true);
-                toucheBasEnfoncee = true;
-
+                if (etatDirectionCourant != etatDirection.bas) {
+                    connexion.envoyerTouchesEnfoncee('bas', true);
+                }
+                etatDirectionCourant = etatDirection.bas;
                 break;
             case configuration.gauche:
-                connexion.envoyerTouchesEnfoncee('gauche', true);
-                toucheGaucheEnfoncee = true;
-                window.scrollX -= 5;
-
+                if (etatDirectionCourant != etatDirection.gauche) {
+                    connexion.envoyerTouchesEnfoncee('gauche', true);
+                }
+                etatDirectionCourant = etatDirection.gauche;
                 break;
             case configuration.haut:
-                connexion.envoyerTouchesEnfoncee('haut', true);
-                toucheHautEnfoncee = true;
+                if (etatDirectionCourant != etatDirection.haut) {
+                    connexion.envoyerTouchesEnfoncee('haut', true);
+                }
+                etatDirectionCourant = etatDirection.haut;
                 break;
 
             case configuration.enter:
                 collisionnementJoueur();
                 break;
         }
+    }
+
+    function transfererEtatPosition() {
+        //connexion.envoyerTouchesEnfoncee(etatDirectionCourant, true);
+
     }
 
     function gererMortJoueur(unJoueurMort) {

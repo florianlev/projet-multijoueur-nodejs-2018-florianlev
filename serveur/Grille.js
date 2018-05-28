@@ -33,46 +33,38 @@ function Grille() {
             }
         }
     }
-    this.gererPossessionCases = function (idJoueur) {
-        for (var y = 0; y < NombreCases.casesH; y++) {
-            for (var x = 0; x < NombreCases.casesW; x++) {
-                if (gameMap[((y * casesW) + x)] == idJoueur) {
-                    //envoyerPossessionCase(idJoueur);
-                }
-            }
-        }
-    }
-    
-    function parcourirGrille() {
-    }
 
     this.determinerCasesSuivante = function (coordonneesCaseCourante, etatDirectionCourant) {
+        console.log("GRILLE " + etatDirectionCourant);
         switch (etatDirectionCourant) {
             case "haut":
-                coordonneesCaseCourante.indiceColonne += 1;
-                if (coordonneesCaseCourante.indiceColonne >= NombreCases.casesH){
-                    console.log("TODO MORT");
+                coordonneesCaseCourante.indiceLigne -= 1;
+                console.log(coordonneesCaseCourante.indiceLigne);
+                if (coordonneesCaseCourante.indiceLigne >= NombreCases.casesH){
+                    console.log("TODO MORT HAUT");
                     return null;
                 }
                 break;
             case "bas":
-                coordonneesCaseCourante.indiceColonne -= 1;
-                if (coordonneesCaseCourante.indiceColonne < 0) {
-                    console.log("TODO MORT");
+                console.log(coordonneesCaseCourante.indiceLigne );
+                coordonneesCaseCourante.indiceLigne += 1;
+                if (coordonneesCaseCourante.indiceLigne < 0) {
+                    console.log("TODO MORT BAS");
                     return null;
                 }
                 break;
             case "droite":
-                coordonneesCaseCourante.indiceLigne += 1;
-                if (coordonneesCaseCourante.indiceLigne >= NombreCases.casesW){
-                    console.log("TODO MORT");
+                coordonneesCaseCourante.indiceColonne += 1;
+                //console.log(coordonneesCaseCourante.indiceColonne);
+                if (coordonneesCaseCourante.indiceColonne >= NombreCases.casesW){
+                    console.log("TODO MORT DROITE");
                     return null;
                 }
                 break;
             case "gauche":
-                coordonneesCaseCourante.indiceLigne -= 1;
-                if (coordonneesCaseCourante.indiceLigne < 0){
-                    console.log("TODO MORT");
+                coordonneesCaseCourante.indiceColonne -= 1;
+                if (coordonneesCaseCourante.indiceColonne < 0){
+                    console.log("TODO MORT GAUCHE");
                     return null;
                 }
                 break;

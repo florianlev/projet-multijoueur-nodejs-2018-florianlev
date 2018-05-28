@@ -16,12 +16,15 @@ var socket;
 var debutPartie;
 var partieEstCommencer;
 var tween;
+var grille;
+var avancerCaseSuivante;
 
 function initialiser() {
 
     console.log(Date.now());
     console.log("initialiser()");
     debutPartie = false;
+    avancerCaseSuivante = false;
     nombreClients = 0;
     joueurRestant = 0;
     var server = http.createServer(function (req, res) {
@@ -36,7 +39,7 @@ function initialiser() {
     socket.on('connection', gererConnexion);
     //setInterval(mettreAJourPosition, 1000 / 60);
 
-    var grille = new Grille();
+    grille = new Grille();
 
 }
 
@@ -72,6 +75,7 @@ function gererConnexion(connexion) {
     connexion.on('joueurEstPret', gererDebut);
     connexion.on('joueurGagner', gererJoueurGagner);
     connexion.on('sortieZone', gererSortieZoneJoueur);
+    connexion.on('envoyerArriverDestination', gererAvancemementCase);
 
 }
 
@@ -185,25 +189,34 @@ function gererDeconnexionClient(evenement) {
 }
 
 function gererToucheEnfoncee(evenement) {
-
     listeJoueur[this.id].etatDirectionCourant = evenement.directionCourante;
     transmettreNouvelleCase(listeJoueur[this.id]);
 
 }
 
 function transmettreNouvelleCase(unJoueur) {
+    console.log("SERV " + unJoueur.etatDirectionCourant);
     caseAEnvoyer = grille.determinerCasesSuivante(unJoueur.coordonneesCaseCourante, unJoueur.etatDirectionCourant);
-
+    console.log(caseAEnvoyer.x);
     if (caseAEnvoyer) {
-        evaluerEntreeCase(caseAEnvoyer, unJoueur);
+        //evaluerEntreeCase(caseAEnvoyer, unJoueur);
+        unJoueur.caseIdCourant = caseAEnvoyer.id;
         var caseAEnvoyerJSON = JSON.stringify(caseAEnvoyer);
+        var unJoueurJSON = JSON.stringify(unJoueur);
         for (var idConnexion in listeConnexion) {
-            if (listeConnexion[idConnexion]) {
-                listeConnexion[idConnexion].emit('joueurCaseActuel', caseAEnvoyerJSON);
-            }
+            //if (listeConnexion[idConnexion]) {
+                listeConnexion[idConnexion].emit('joueurCaseActuel', {caseEnvoyer : caseAEnvoyerJSON, joueur : unJoueurJSON });
+            //}
         }
     }
-    else console.log("TODO MORT");
+    else console.log("TODO MORT SERV");
+}
+
+function gererAvancemementCase(evenement)
+{
+    //avancerCaseSuivante = evenement;
+    transmettreNouvelleCase(listeJoueur[this.id]);
+
 }
 
 
@@ -219,7 +232,6 @@ function evaluerEntreeCase(uneCase, unJoueur) {
 
         }
     }
-
 }
 
 function recupererCasePresenceJoueur(idJoueur, idCase) {
@@ -231,8 +243,6 @@ function recupererCasePresenceJoueur(idJoueur, idCase) {
         }
     }
 }
-
-
 
 function recupererListeJoueurJSON() {
     var listeJoueurActif = [];

@@ -66,19 +66,22 @@ function Joueur(sceneSVG, scene, joueurInitial, envoyerArriverDestination) {
 
                     rect.x(joueur.coords.x);
                     rect.y(joueur.coords.y);
+                    joueur.x = joueur.coords.x;
+                    joueur.y = joueur.coords.y;
                 })
                 .start()
                 .onComplete(function () {
                     enDeplacement = false;
                     if(unJoueur != joueur.id){envoyerArriverDestination();}
                 });
-            requestAnimationFrame(animate);
+            //requestAnimationFrame(animate);
         }
     }
 
-    function animate(time) {
-        requestAnimationFrame(animate);
-        TWEEN.update(time);
+    this.animate = function() {
+        //requestAnimationFrame(animate);
+        TWEEN.update();
+
     }
 
 
@@ -108,6 +111,17 @@ function Joueur(sceneSVG, scene, joueurInitial, envoyerArriverDestination) {
         //dessin.y = y;
         rect.y(y);
         this.y = y;
+
+    }
+
+    this.getPositionX = function()
+    {
+        console.log(joueur.coords.x);
+        return joueur.coords.x;
+    }
+    this.getPositionY = function()
+    {
+        return joueur.coords.y;
 
     }
     this.afficher = function () {

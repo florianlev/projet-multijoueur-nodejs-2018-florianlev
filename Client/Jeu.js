@@ -78,6 +78,7 @@
         accueilVue.afficher();
 
         window.addEventListener("hashchange", interpreterEvenementLocation);
+        
     }
 
     function initialiserConnexion() {
@@ -114,7 +115,6 @@
         zone = zoneJeu.rect(tailleZoneJeu.width, tailleZoneJeu.height).attr({ stroke: '#000000', 'stroke-width': 5, fill: 'none' });
         zone.x(0);
         zone.y(0);
-        setInterval(transfererEtatPosition, 1000);
 
     }
 
@@ -213,7 +213,15 @@
 
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
             joueurInitialPret = true;
+
+            setInterval(update, 1000/30);
+
         }
+    }
+
+    function update(){
+        joueur.animate();
+        camera.updateCamera(joueur.getPositionX(), joueur.getPositionY());
     }
 
     function envoyerArriverDestination() {
@@ -238,7 +246,7 @@
             if (id == listeJoueur[i].id) {
                 listeJoueur[i].setPositionx(x);
                 listeJoueur[i].setPositiony(y);
-                camera.updateCamera();
+                //camera.updateCamera();
 
             }
         }

@@ -75,14 +75,6 @@ function Joueur(nouveauId) {
         console.log("joueur.positionDepartX " + joueur.positionDepartX);
         console.log("joueur.x " + joueur.x);
 
-         /* if (etatDirection.droite == joueur.etatDirectionCourant) 
-         {
- 
-         }joueur.x += joueur.maxVitesse;
-         if (etatDirection.gauche == joueur.etatDirectionCourant) joueur.x -= joueur.maxVitesse;
-         if (etatDirection.haut == joueur.etatDirectionCourant) joueur.y -= joueur.maxVitesse;
-         if (etatDirection.bas == joueur.etatDirectionCourant) joueur.y += joueur.maxVitesse; 
-     */
 
     }
 

@@ -19,6 +19,9 @@ var tween;
 var grille;
 var avancerCaseSuivante;
 
+var listeJoueurActif = []
+var listeCaseJoueur = []
+
 function initialiser() {
 
     console.log(Date.now());
@@ -201,20 +204,38 @@ function transmettreNouvelleCase(unJoueur) {
     if (caseAEnvoyer) {
         //evaluerEntreeCase(caseAEnvoyer, unJoueur);
         unJoueur.caseIdCourant = caseAEnvoyer.id;
+
+        var deplacementDuJoueur = {
+            case : caseAEnvoyer,
+            unJoueur : unJoueur
+        }
+
+
         var caseAEnvoyerJSON = JSON.stringify(caseAEnvoyer);
         var unJoueurJSON = JSON.stringify(unJoueur);
+
+         
+        //envoyerNouvelleCase(unJoueurJSON, caseAEnvoyerJSON);
+
         for (var idConnexion in listeConnexion) {
-            //if (listeConnexion[idConnexion]) {
+            if (listeConnexion[idConnexion]) {
                 listeConnexion[idConnexion].emit('joueurCaseActuel', {caseEnvoyer : caseAEnvoyerJSON, joueur : unJoueurJSON });
-            //}
+
+            }
         }
     }
     else console.log("TODO MORT SERV");
 }
 
-function gererAvancemementCase(evenement)
-{
+
+function envoyerNouvelleCase(unDeplacement) {
+
+    var listeDeplacements = [];
+}
+
+function gererAvancemementCase(evenement) {
     //avancerCaseSuivante = evenement;
+    console.log(listeJoueur[this.id]);
     transmettreNouvelleCase(listeJoueur[this.id]);
 
 }
@@ -261,7 +282,6 @@ function mettreAJourPosition() {
             joueur = listeJoueur[idJoueur];
             joueur.mettreAjourPosition();
             listeJoueurActif.push(joueur);
-
         }
     }
     var listeJoueursJson = JSON.stringify(listeJoueurActif);

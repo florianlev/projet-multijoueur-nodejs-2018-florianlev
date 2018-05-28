@@ -17,6 +17,8 @@ function Joueur(sceneSVG, scene, joueurInitial, envoyerArriverDestination) {
     var tween;
     var enDeplacement;
 
+    var joueurInitialVrai;
+
     const etatVie = {
         vivant: "vivant",
         mort: "mort"
@@ -33,6 +35,7 @@ function Joueur(sceneSVG, scene, joueurInitial, envoyerArriverDestination) {
 
     function initialiser() {
         //recuperer Couleur
+        joueurInitialVrai = false;
         joueur.x = 0;
         joueur.y = 0;
         enDeplacement = false;
@@ -72,10 +75,21 @@ function Joueur(sceneSVG, scene, joueurInitial, envoyerArriverDestination) {
                 .start()
                 .onComplete(function () {
                     enDeplacement = false;
-                    if(unJoueur != joueur.id){envoyerArriverDestination();}
+                    console.log(joueurInitialVrai);
+                    if(joueurInitialVrai)
+                    {
+                        console.log("if(joueur.recupererEstJoueurInitial)");
+                        envoyerArriverDestination();
+                    }
+                    /* if(unJoueur != joueur.id){envoyerArriverDestination();} */
                 });
             //requestAnimationFrame(animate);
         }
+    }
+
+    this.recupererEstJoueurInitial = function(estJoueurInitial)
+    {
+        joueurInitialVrai = estJoueurInitial;
     }
 
     this.animate = function() {
@@ -116,7 +130,6 @@ function Joueur(sceneSVG, scene, joueurInitial, envoyerArriverDestination) {
 
     this.getPositionX = function()
     {
-        console.log(joueur.coords.x);
         return joueur.coords.x;
     }
     this.getPositionY = function()

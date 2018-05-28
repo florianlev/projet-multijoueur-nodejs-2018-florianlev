@@ -10,6 +10,7 @@
     var listeJoueur = [];
     var autreJoueur;
     var idCourant;
+    var joueurActuel;
 
     var estDemarer;
     var joueurInitial;
@@ -78,7 +79,7 @@
         accueilVue.afficher();
 
         window.addEventListener("hashchange", interpreterEvenementLocation);
-        
+
     }
 
     function initialiserConnexion() {
@@ -185,7 +186,7 @@
             if (!estTrouvee) {
                 console.log(joueurInitialPret);
                 joueurServeur = listeJoueurServeur[ordreJoueurServeur];
-                autreJoueur = new Joueur(zoneJeu, scene, joueurServeur,envoyerArriverDestination);
+                autreJoueur = new Joueur(zoneJeu, scene, joueurServeur, envoyerArriverDestination);
                 listeJoueur.push(autreJoueur);
                 autreJoueur.afficher();
                 connexion.changerEtatEstCreer(true);
@@ -214,16 +215,38 @@
             createjs.Ticker.addEventListener("tick", rafraichirEcran);
             joueurInitialPret = true;
 
-            setInterval(update, 1000/30);
+            setInterval(update, 1000 / 30);
 
         }
     }
 
-    function update(){
-        joueur.animate();
-        camera.updateCamera(joueur.getPositionX(), joueur.getPositionY());
-    }
+    function update() {
+        if(joueurActuel){
+            /* console.log(joueurActuel.id);
+            console.log(listeJoueur[0].id); */
+            if (joueurActuel.id == listeJoueur[0].id) {
+                console.log("TEST");
+                listeJoueur[0].recupererEstJoueurInitial(true);
+                camera.updateCamera(listeJoueur[0].getPositionX(), listeJoueur[0].getPositionY());
 
+            }
+    
+            else {
+                listeJoueur[0].recupererEstJoueurInitial(false);
+            }
+            joueur.animate();
+        }
+        
+        /* for (var i = 0; i < listeJoueur.length; i++) {
+             if (joueur.id == listeJoueur[i].id) {
+                 console.log("ID " + listeJoueur[i].id);
+                 console.log("X " + listeJoueur[i].getPositionX()); 
+                 camera.updateCamera(listeJoueur[i].getPositionX(), listeJoueur[i].getPositionY());
+    
+             }
+         }  */
+    }
+    /*  */
     function envoyerArriverDestination() {
         connexion.envoyerArriverDestination();
     }
@@ -253,11 +276,11 @@
     }
 
     function gererLesNouvellesPositions(uneCaseDestination, unJoueur) {
+        console.log(unJoueur.id);
+        joueurActuel = unJoueur;
         for (var i = 0; i < listeJoueur.length; i++) {
             if (unJoueur.id == listeJoueur[i].id) {
-                console.log("TEST" + unJoueur.id);
                 listeJoueur[i].idCaseCourante = uneCaseDestination.id;
-                //console.log(uneCaseDestination.x);
                 listeJoueur[i].deplacerJoueur(uneCaseDestination, unJoueur.id);
 
             }

@@ -1,6 +1,18 @@
-# projet-readme
-Projet pour initialiser les dépôts de Classroom
 
-Video du jeu : 
+# Introduction
 
-https://youtu.be/rry7zXT87tI
+Reproduction du jeu Paper.IO 
+
+# Technologies 
+
+* JavaScript
+* HTML 5 
+* CSS 3 
+* SVG.JS
+* Node JS
+* Socket.IO
+
+
+# Crédits 
+
+Florian LEVY
